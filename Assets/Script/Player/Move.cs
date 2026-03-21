@@ -17,17 +17,17 @@ public class Move : MonoBehaviour
     [SerializeField] private Camera mainCamera;
 
     protected Animator animator;
+    private Attack attack;
     private Rigidbody rb;
     private Vector2 moveInput;
-    public bool isGrounded;
-    public bool jumpPressed;
+    private bool isGrounded;
+    private bool jumpPressed;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        attack = GetComponent<Attack>();
         rb = GetComponent<Rigidbody>();
-        
-        // 自动获取主相机
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -42,6 +42,8 @@ public class Move : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (attack.isAttacking)
+            return;
         HandleMovement();
         HandleJump();
     }
@@ -65,27 +67,27 @@ public class Move : MonoBehaviour
         
         if (moveDirection.magnitude > 0.1f)
         {
-            // 获取相机方向
+            //获取相机方向
             Vector3 cameraForward = mainCamera != null ? mainCamera.transform.forward : Vector3.forward;
             Vector3 cameraRight = mainCamera != null ? mainCamera.transform.right : Vector3.right;
             
-            // 去除Y轴分量，保持水平
+            //去除Y轴分量，保持水平
             cameraForward.y = 0f;
             cameraRight.y = 0f;
             cameraForward.Normalize();
             cameraRight.Normalize();
             
-            // 根据相机方向计算实际移动方向
+            //根据相机方向计算实际移动方向
             Vector3 actualMoveDirection = cameraRight * moveInput.x + cameraForward * moveInput.y;
             actualMoveDirection.Normalize();
             
-            // 计算目标旋转角度
+            //计算目标旋转角度
             Quaternion targetRotation = Quaternion.LookRotation(actualMoveDirection);
             
-            // 平滑旋转
+            //平滑旋转
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             
-            // 应用移动
+            //应用移动
             Vector3 targetVelocity = actualMoveDirection * maxSpeed;
             targetVelocity.y = rb.velocity.y;
             rb.velocity = targetVelocity;
@@ -162,29 +164,23 @@ public class Move : MonoBehaviour
     {
         animator.SetBool("isWalk", false);
     }
-
     protected virtual void OnWalk()
     {
         animator.SetBool("isWalk", true);
     }
-
     protected virtual void OnJumpStart()
     {
         animator.SetBool("isJump", true);
     }
-
     protected virtual void OnJumpUp()
     {
     }
-
     protected virtual void OnJumpDown()
     {
     }
-
     protected virtual void OnLand()
     {
         animator.SetBool("isJump", false);
     }
-
     #endregion
 }
