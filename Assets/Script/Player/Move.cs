@@ -55,7 +55,7 @@ public class Move : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        if (value.isPressed && isGrounded)
+        if (value.isPressed && isGrounded && !attack.isAttacking)
         {
             jumpPressed = true;
         }

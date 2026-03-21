@@ -5,9 +5,15 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    [Header("攻击状态")]
     public bool isAttacking;
     public bool absorb;
     public bool release;
+
+    [Header("目标信息")]
+    public Transform target;
+
+    
 
     private Animator animator;
     
