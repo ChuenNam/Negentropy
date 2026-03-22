@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     }
 
     public List<Image> energyImgs;
+    public RectTransform healthBar;
 
     public void UpdateEnergyUI(int num)
     {
@@ -27,5 +28,10 @@ public class UIManager : MonoBehaviour
         {
             energyImgs[i].color = Color.white;
         }
+    }
+
+    public void UpdateHealthUI(int num)
+    {
+        healthBar.sizeDelta = new Vector2(num, healthBar.sizeDelta.y);
     }
 }

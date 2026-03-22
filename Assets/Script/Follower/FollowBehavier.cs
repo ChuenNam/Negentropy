@@ -28,6 +28,12 @@ public class FollowBehavier : MonoBehaviour
         
         if (isAttacking || isReturning) return;
 
+        if (Player.Instance.EP < 2)
+        {
+            Debug.Log("能量不足");
+            return;
+        }
+        Player.Instance.MinusEP(2);
         meshFilter.mesh = meshes[1];
         GetComponent<Animator>().SetBool("isAttack", true);
         transform.LookAt(new Vector3(atkTarget.transform.position.x, 0, atkTarget.transform.position.z));
@@ -41,7 +47,13 @@ public class FollowBehavier : MonoBehaviour
             atkTarget = baseEnemy.transform;
         
         if (isAttacking || isReturning) return;
-        
+
+        if (Player.Instance.EP < 2)
+        {
+            Debug.Log("能量不足");
+            return;
+        }
+        Player.Instance.MinusEP(2);
         meshFilter.mesh = meshes[2];
         GetComponent<Animator>().SetBool("isAttack", true);
         transform.LookAt(new Vector3(atkTarget.transform.position.x, 0, atkTarget.transform.position.z));

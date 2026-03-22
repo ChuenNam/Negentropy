@@ -43,12 +43,29 @@ public class Player : MonoBehaviour
         EP -= num;
         UIManager.Instance.UpdateEnergyUI(EP);
     }
+
+    public void AddHP(int num)
+    {
+        if (HP + num > MaxHP) return;
+        HP += num;
+        UIManager.Instance.UpdateHealthUI(HP);
+    }
+    public void MinusHP(int num)
+    {
+        if (HP - num <= 0)
+        {
+            Debug.Log("Player死亡");
+        }
+        HP -= num;
+        UIManager.Instance.UpdateHealthUI(HP);
+    }
+    
     
     void Start()
     {
         HP = MaxHP;
-        MaxHP = MaxEP;
-        UIManager.Instance.UpdateEnergyUI(EP);
+        EP = MaxEP;
+        UIManager.Instance.UpdateHealthUI(HP);
     }
 
     public void SetElement(Element e)
@@ -58,9 +75,14 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Tab))
+        /*if (Input.GetKeyDown(KeyCode.M))
         {
-            UIManager.Instance.UpdateEnergyUI(EP);
+            AddHP(15);
+        }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            MinusHP(15);
         }*/
     }
 }
