@@ -50,6 +50,24 @@
                     "processors": "",
                     "interactions": "Press(behavior=2)",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "AtkE",
+                    "type": "Button",
+                    "id": "44402c14-6f1c-455e-9476-ea7f2358e7bf",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "AtkQ",
+                    "type": "Button",
+                    "id": "63387eab-b937-4262-8efa-47019fcc3177",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -250,6 +268,28 @@
                     "action": "Release",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4de0aaaa-d8e9-4271-b902-323540ac4397",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "AtkE",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fa8818c3-b4a1-46dd-a0aa-4fb7872fed61",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "AtkQ",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -279,7 +319,7 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "3aacbbbd-8e13-45b8-8eda-fbba2ce6359f",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false

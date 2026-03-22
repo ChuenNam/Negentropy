@@ -13,8 +13,7 @@ public class Move : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
-    [Header("相机设置")]
-    [SerializeField] private Camera mainCamera;
+    private Camera mainCamera;
 
     protected Animator animator;
     private Attack attack;
@@ -22,6 +21,8 @@ public class Move : MonoBehaviour
     private Vector2 moveInput;
     private bool isGrounded;
     private bool jumpPressed;
+
+    public bool canMove = true;
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class Move : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (attack.isAttacking)
+        if (!canMove || attack.isAttacking)
             return;
         HandleMovement();
         HandleJump();
@@ -50,7 +51,8 @@ public class Move : MonoBehaviour
 
     public void OnMove(InputValue value)
     {
-        moveInput = value.Get<Vector2>();
+        if (canMove)
+            moveInput = value.Get<Vector2>();
     }
 
     public void OnJump(InputValue value)
