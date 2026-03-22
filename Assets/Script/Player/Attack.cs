@@ -121,8 +121,17 @@ public class Attack : MonoBehaviour
         if (clock >= velocity)
         {
             clock = 0;
-            if (release)    target.Heal(damage);
-            if (absorb)    target.TakeDamage(damage);
+            if (release)
+            {
+                target.Heal(damage);
+                Player.Instance.MinusEP(1);
+            }
+
+            if (absorb)
+            {
+                target.TakeDamage(damage);
+                Player.Instance.AddEP(1);
+            }
         }
     }
     
