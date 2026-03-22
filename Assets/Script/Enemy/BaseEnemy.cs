@@ -7,15 +7,17 @@ public abstract class BaseEnemy : MonoBehaviour
 {
     public int health;
     public int killEnergy;
+    public float range = 5;
     
     [Header("能量条配置")]
     public GameObject energyBarPrefab;  // 能量条预制体
     public Transform energyBarFollowPoint;  // 能量条跟随的点
     [Header("能量配置")]
     public float maxEnergy = 100;
-    private float currentEnergy;
+    public float currentEnergy;
+    private bool showBar;  // 显示能量条
     private GameObject energyBarInstance; // 能量条实例
-    private Image energyFillImage;  // 能量条填充Image
+    public Image energyFillImage;  // 能量条填充Image
 
     public Transform player;
 
@@ -37,7 +39,7 @@ public abstract class BaseEnemy : MonoBehaviour
         energyBarInstance.SetActive(true);
         
         // 获取能量条填充组件
-        energyFillImage = energyBarInstance.transform.GetComponent<Image>();
+        energyFillImage = energyBarInstance.transform.GetChild(0).GetComponent<Image>();
         
         // 初始化能量条显示
         UpdateEnergyBar();
@@ -48,9 +50,41 @@ public abstract class BaseEnemy : MonoBehaviour
         // 实时更新能量条位置
         if (energyBarInstance != null && energyBarFollowPoint != null)
         {
-            UpdateEnergyBarPosition();
+            var dis = Vector3.Distance(player.position, energyBarFollowPoint.position);
+            if (dis <= range)
+            {
+                // 判断敌人是否在相机视野内
+                var viewportPos = Camera.main.WorldToViewportPoint(energyBarFollowPoint.position);
+                var isInView = viewportPos.x > 0 && viewportPos.x < 1 && viewportPos.y > 0 && viewportPos.y < 1 && viewportPos.z > 0;
+
+                if (isInView)
+                {
+                    // 更新位置
+                    UpdateEnergyBarPosition();
+                }
+                energyBarInstance.SetActive(isInView);
+            }
+            else
+            {
+                energyBarInstance.SetActive(false);
+            }
         }
 
+        if (energyBarInstance.activeInHierarchy)
+        {
+            var atk = player.GetComponent<Attack>();
+            if (atk.enemies.Contains(this)) return;
+            atk.enemies.Add(this);
+        }
+        else
+        {
+            var atk = player.GetComponent<Attack>();
+            if (atk.enemies.Contains(this))
+            {
+                atk.enemies.Remove(this);
+            }
+        }
+        
         // 测试：按Z键扣能量，按X键回能量
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -80,11 +114,6 @@ public abstract class BaseEnemy : MonoBehaviour
             out Vector2 localPos
         );
         rectTransform.localPosition = localPos;
-
-        // 判断敌人是否在相机视野内
-        Vector3 viewportPos = Camera.main.WorldToViewportPoint(worldPos);
-        bool isInView = viewportPos.x > 0 && viewportPos.x < 1 && viewportPos.y > 0 && viewportPos.y < 1 && viewportPos.z > 0;
-        energyBarInstance.SetActive(isInView);
     }
 
 
@@ -96,6 +125,11 @@ public abstract class BaseEnemy : MonoBehaviour
         energyFillImage.fillAmount = Mathf.Clamp01(fillAmount);
     }
 
+    public void ShowBar(bool state)
+    {
+        energyFillImage.gameObject.SetActive(state);
+    }
+    
     // 扣能量方法（外部调用）
     public void TakeDamage(float damage)
     {
@@ -124,6 +158,11 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             Destroy(energyBarInstance);
         }
+
+        if (player == null) return;
+        var p = player.GetComponent<Attack>();
+        p.target = null;
+        p.enemies.Remove(this);
     }
 
 }

@@ -5,15 +5,19 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    [Header("攻击参数")]
+    public float velocity;
+    public int damage = 10;
+    
     [Header("攻击状态")]
     public bool isAttacking;
     public bool absorb;
     public bool release;
+    public float clock = 0;
 
     [Header("目标信息")]
-    public Transform target;
-
-    
+    public BaseEnemy target;
+    public List<BaseEnemy> enemies;
 
     private Animator animator;
     
@@ -43,6 +47,7 @@ public class Attack : MonoBehaviour
                 // 结束攻击
                 isAttacking = false;
                 absorb = false;
+                clock = 0;
                 animator.SetBool("isAttack", false);
             }
         }
@@ -68,6 +73,7 @@ public class Attack : MonoBehaviour
             {
                 isAttacking = false;
                 release = false;
+                clock = 0;
                 animator.SetBool("isAttack", false);
             }
         }
@@ -79,7 +85,45 @@ public class Attack : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    
     void Update()
     {
+        Lock();
+        
+        DoAttack();
     }
+
+
+    private void Lock()
+    {
+        var minDis = Mathf.Infinity;
+        if (!enemies.Contains(target))
+            target = null;
+        foreach (var e in enemies)
+        {
+            var dis = Vector3.Distance(e.transform.position, transform.position);
+            e.ShowBar(false);
+            if (dis < minDis)
+            {
+                minDis = dis;
+                target = e;
+            }
+        }
+        if (target) target.ShowBar(true);
+    }
+
+    private void DoAttack()
+    {
+        if (!isAttacking || target is null) return;
+        
+        transform.LookAt(new Vector3(target.transform.position.x, 0, target.transform.position.z));
+        clock += Time.deltaTime;
+        if (clock >= velocity)
+        {
+            clock = 0;
+            if (release)    target.Heal(damage);
+            if (absorb)    target.TakeDamage(damage);
+        }
+    }
+    
 }

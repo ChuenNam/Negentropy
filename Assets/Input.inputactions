@@ -34,7 +34,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Release",
+                    "name": "Absorb",
                     "type": "Button",
                     "id": "383d6382-5518-4938-ac8d-a4ab03919faf",
                     "expectedControlType": "",
@@ -43,7 +43,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Absorb",
+                    "name": "Release",
                     "type": "Button",
                     "id": "ad5aa371-6f3b-464c-9976-f990f8c91f67",
                     "expectedControlType": "",
@@ -225,7 +225,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Release",
+                    "action": "Absorb",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -247,7 +247,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Absorb",
+                    "action": "Release",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
