@@ -12,8 +12,8 @@ public abstract class BaseObject : MonoBehaviour
     public GameObject energyBarPrefab;  // 能量条预制体
     public Transform energyBarFollowPoint;  // 能量条跟随的点
     [Header("能量配置")]
-    public float maxEnergy = 100;
-    public float currentEnergy;
+    public int maxEnergy = 100;
+    public int currentEnergy;
     private bool showBar;  // 显示能量条
     protected GameObject energyBarInstance; // 能量条实例
     private Image energyFillImage;  // 能量条填充Image
@@ -21,6 +21,7 @@ public abstract class BaseObject : MonoBehaviour
     protected Transform player;
     public Action OnEnergyFill;
     public Action OnEnergyEmpty;
+    public Action OnEnergyChange;
 
     protected virtual void OnEnable()
     {
@@ -35,6 +36,7 @@ public abstract class BaseObject : MonoBehaviour
     {
         OnEnergyEmpty = null;
         OnEnergyFill = null;
+        OnEnergyChange = null;
     }
 
     // 创建能量条并绑定跟随逻辑
@@ -81,15 +83,14 @@ public abstract class BaseObject : MonoBehaviour
         if (!canInteract)   
             energyBarInstance.SetActive(false);
 
+        var atk = player.GetComponent<Attack>();
         if (energyBarInstance.activeInHierarchy)
         {
-            var atk = player.GetComponent<Attack>();
             if (atk.enemies.Contains(this)) return;
             atk.enemies.Add(this);
         }
         else
         {
-            var atk = player.GetComponent<Attack>();
             if (atk.enemies.Contains(this))
             {
                 atk.enemies.Remove(this);
@@ -129,10 +130,10 @@ public abstract class BaseObject : MonoBehaviour
 
 
     // 更新能量条填充量
-    private void UpdateEnergyBar()
+    public void UpdateEnergyBar()
     {
         if (energyFillImage == null) return;
-        float fillAmount = currentEnergy / maxEnergy;
+        float fillAmount = (float)currentEnergy / maxEnergy;
         energyFillImage.fillAmount = Mathf.Clamp01(fillAmount);
     }
 
@@ -142,29 +143,34 @@ public abstract class BaseObject : MonoBehaviour
     }
     
     // 扣能量方法（外部调用）
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         currentEnergy = Mathf.Max(0, currentEnergy - damage);
+        OnEnergyChange?.Invoke();
         UpdateEnergyBar();
         
-        // 能量为0时销毁敌人和能量条（同步消失）
-        if (currentEnergy <= 0)
+        // 能量为0时调用事件
+        if (currentEnergy == 0)
         {
             OnEnergyEmpty?.Invoke();
-            /*Destroy(energyBarInstance);
-            Destroy(gameObject);*/
         }
     }
 
     // 回能量方法（外部调用）
-    public void Heal(float healAmount)
+    public void Heal(int healAmount)
     {
         currentEnergy = Mathf.Min(maxEnergy, currentEnergy + healAmount);
+        OnEnergyChange?.Invoke();
         UpdateEnergyBar();
+
+        if (currentEnergy == maxEnergy)
+        {
+            OnEnergyFill?.Invoke();
+        }
     }
     
-    // 敌人销毁时同步销毁能量条
-    private void OnDestroy()
+    // 销毁能量条
+    public void DestroyEnergyBar()
     {
         if (energyBarInstance != null)
         {
@@ -175,6 +181,23 @@ public abstract class BaseObject : MonoBehaviour
         var p = player.GetComponent<Attack>();
         p.target = null;
         p.enemies.Remove(this);
+    }
+    // 隐藏能量条
+    public void HideEnergyBar()
+    {
+        canInteract = false;
+        energyBarInstance.SetActive(false);
+        
+        if (player == null) return;
+        var p = player.GetComponent<Attack>();
+        p.target = null;
+        p.enemies.Remove(this);
+    }
+    
+    // 敌人销毁时同步销毁能量条
+    private void OnDestroy()
+    {
+        DestroyEnergyBar();
     }
 
 }

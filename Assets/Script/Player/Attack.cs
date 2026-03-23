@@ -116,7 +116,7 @@ public class Attack : MonoBehaviour
     {
         if (!isAttacking || target is null) return;
         
-        transform.LookAt(new Vector3(target.transform.position.x, 0, target.transform.position.z));
+        transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
         clock += Time.deltaTime;
         if (clock >= velocity)
         {
@@ -125,13 +125,18 @@ public class Attack : MonoBehaviour
             {
                 target.Heal(damage);
                 Player.Instance.MinusEP(1);
+                /*if (target.currentEnergy == target.maxEnergy)
+                    target.OnEnergyFill?.Invoke();*/
             }
 
             if (absorb)
             {
                 target.TakeDamage(damage);
                 Player.Instance.AddEP(1);
+                /*if (target.currentEnergy == 0)
+                    target.OnEnergyEmpty?.Invoke();*/
             }
+            
         }
     }
     

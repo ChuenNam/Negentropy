@@ -27,6 +27,7 @@ public class Shield : BaseObject, ICanBeAttack, IBreakable
     protected override void OnDisable()
     {
         base.OnDisable();
+        if (player == null)     return;
         var p = player.GetComponent<Attack>();
         p.target = null;
         p.enemies.Remove(this);
