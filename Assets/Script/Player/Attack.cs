@@ -16,8 +16,8 @@ public class Attack : MonoBehaviour
     public float clock = 0;
 
     [Header("目标信息")]
-    public BaseEnemy target;
-    public List<BaseEnemy> enemies;
+    public BaseObject target;
+    public List<BaseObject> enemies;
 
     private Animator animator;
     

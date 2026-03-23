@@ -1,14 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public abstract class BaseEnemy : MonoBehaviour
+public abstract class BaseObject : MonoBehaviour
 {
-    public int health;
-    public int killEnergy;
+    public bool canInteract = true;
     public float range = 5;
-    
     [Header("能量条配置")]
     public GameObject energyBarPrefab;  // 能量条预制体
     public Transform energyBarFollowPoint;  // 能量条跟随的点
@@ -16,17 +15,26 @@ public abstract class BaseEnemy : MonoBehaviour
     public float maxEnergy = 100;
     public float currentEnergy;
     private bool showBar;  // 显示能量条
-    private GameObject energyBarInstance; // 能量条实例
-    public Image energyFillImage;  // 能量条填充Image
+    protected GameObject energyBarInstance; // 能量条实例
+    private Image energyFillImage;  // 能量条填充Image
+    
+    protected Transform player;
+    public Action OnEnergyFill;
+    public Action OnEnergyEmpty;
 
-    public Transform player;
-
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         currentEnergy = maxEnergy;  // 初始化能量
         CreateEnergyBar();  // 创建能量条实例（和敌人同时出现）
-
         player = GameObject.Find("Player").transform;
+
+        OnEnergyEmpty += () => Debug.Log("能量为0");
+    }
+
+    protected virtual void OnDisable()
+    {
+        OnEnergyEmpty = null;
+        OnEnergyFill = null;
     }
 
     // 创建能量条并绑定跟随逻辑
@@ -69,6 +77,9 @@ public abstract class BaseEnemy : MonoBehaviour
                 energyBarInstance.SetActive(false);
             }
         }
+        
+        if (!canInteract)   
+            energyBarInstance.SetActive(false);
 
         if (energyBarInstance.activeInHierarchy)
         {
@@ -139,8 +150,9 @@ public abstract class BaseEnemy : MonoBehaviour
         // 能量为0时销毁敌人和能量条（同步消失）
         if (currentEnergy <= 0)
         {
-            Destroy(energyBarInstance);
-            Destroy(gameObject);
+            OnEnergyEmpty?.Invoke();
+            /*Destroy(energyBarInstance);
+            Destroy(gameObject);*/
         }
     }
 

@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowBehavier : MonoBehaviour
+public class FollowerBehavier : MonoBehaviour
 {
     public Transform follower;
 
@@ -14,13 +15,14 @@ public class FollowBehavier : MonoBehaviour
     public float rotationSpeed = 50f; // 旋转速度
     public float attackMoveSpeed = 10f; // 攻击移动速度
     
-    public MeshFilter meshFilter;
     public List<Mesh> meshes;
     
     private bool isAttacking = false; // 是否正在攻击
     private bool isReturning = false; // 是否正在返回
+    private Attacker followerAttack;
+    private MeshFilter meshFilter;
 
-    public void OnAtkE(InputValue value)
+    public void OnAtkE(InputValue value)    // 尖刺攻击 Spike
     {
         var baseEnemy = GetComponent<Attack>().target;
         if (baseEnemy) 
@@ -28,19 +30,22 @@ public class FollowBehavier : MonoBehaviour
         
         if (isAttacking || isReturning) return;
 
-        if (Player.Instance.EP < 2)
+        if (Player.Instance.EP < 1)
         {
             Debug.Log("能量不足");
             return;
         }
-        Player.Instance.MinusEP(2);
+        Player.Instance.MinusEP(1);
         meshFilter.mesh = meshes[1];
+        followerAttack.AttackType = AttackType.spike;
+        followerAttack.damage = 30;
+        
         GetComponent<Animator>().SetBool("isAttack", true);
         transform.LookAt(new Vector3(atkTarget.transform.position.x, 0, atkTarget.transform.position.z));
         StartCoroutine(AttackCoroutine());
     }
 
-    public void OnAtkQ(InputValue value)
+    public void OnAtkQ(InputValue value)    // 重锤攻击 ball
     {
         var baseEnemy = GetComponent<Attack>().target;
         if (baseEnemy)
@@ -55,6 +60,9 @@ public class FollowBehavier : MonoBehaviour
         }
         Player.Instance.MinusEP(2);
         meshFilter.mesh = meshes[2];
+        followerAttack.AttackType = AttackType.ball;
+        followerAttack.damage = 10;
+        
         GetComponent<Animator>().SetBool("isAttack", true);
         transform.LookAt(new Vector3(atkTarget.transform.position.x, 0, atkTarget.transform.position.z));
         StartCoroutine(AttackCoroutine());
@@ -100,8 +108,14 @@ public class FollowBehavier : MonoBehaviour
         GetComponent<Move>().canMove = true;
         GetComponent<Animator>().SetBool("isAttack", false);
     }
-    
-    
+
+
+    void Start()
+    {
+        followerAttack = follower.GetComponent<Attacker>();
+        meshFilter = follower.GetComponent<MeshFilter>();
+    }
+
     void Update()
     {
         // 如果正在攻击或返回，不执行旋转
@@ -117,8 +131,5 @@ public class FollowBehavier : MonoBehaviour
         
         // 设置位置
         follower.position = new Vector3(x, y, z);
-        
-        // 看向player
-        //follower.LookAt(transform);
     }
 }

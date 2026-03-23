@@ -66,6 +66,7 @@ public class Player : MonoBehaviour
         HP = MaxHP;
         EP = MaxEP;
         UIManager.Instance.UpdateHealthUI(HP);
+        UIManager.Instance.UpdateEnergyUI(EP);
     }
 
     public void SetElement(Element e)
@@ -75,14 +76,14 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            AddHP(15);
+            AddEP(1);
         }
 
         if (Input.GetKeyDown(KeyCode.N))
         {
-            MinusHP(15);
-        }*/
+            MinusEP(1);
+        }
     }
 }
