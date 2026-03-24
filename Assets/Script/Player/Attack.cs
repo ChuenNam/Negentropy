@@ -123,18 +123,19 @@ public class Attack : MonoBehaviour
             clock = 0;
             if (release)
             {
-                target.Heal(damage);
+                // TODO: 目标满能量时给予恢复的效果？？？
+                if (target.currentEnergy == target.maxEnergy)   return;
+                
                 Player.Instance.MinusEP(1);
-                /*if (target.currentEnergy == target.maxEnergy)
-                    target.OnEnergyFill?.Invoke();*/
+                target.Heal(damage);
             }
 
             if (absorb)
             {
-                target.TakeDamage(damage);
+                if (target.currentEnergy == 0) return;
+                
                 Player.Instance.AddEP(1);
-                /*if (target.currentEnergy == 0)
-                    target.OnEnergyEmpty?.Invoke();*/
+                target.TakeDamage(damage);
             }
             
         }

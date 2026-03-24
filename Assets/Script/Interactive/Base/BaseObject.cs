@@ -132,7 +132,7 @@ public abstract class BaseObject : MonoBehaviour
     // 更新能量条填充量
     public void UpdateEnergyBar()
     {
-        if (energyFillImage == null) return;
+        if (energyFillImage == null || maxEnergy == -1) return;
         float fillAmount = (float)currentEnergy / maxEnergy;
         energyFillImage.fillAmount = Mathf.Clamp01(fillAmount);
     }
@@ -145,8 +145,10 @@ public abstract class BaseObject : MonoBehaviour
     // 扣能量方法（外部调用）
     public void TakeDamage(int damage)
     {
-        currentEnergy = Mathf.Max(0, currentEnergy - damage);
         OnEnergyChange?.Invoke();
+        if (maxEnergy == -1) return;
+
+        currentEnergy = Mathf.Max(0, currentEnergy - damage);
         UpdateEnergyBar();
         
         // 能量为0时调用事件
@@ -159,8 +161,10 @@ public abstract class BaseObject : MonoBehaviour
     // 回能量方法（外部调用）
     public void Heal(int healAmount)
     {
-        currentEnergy = Mathf.Min(maxEnergy, currentEnergy + healAmount);
         OnEnergyChange?.Invoke();
+        if (maxEnergy == -1) return;
+        
+        currentEnergy = Mathf.Min(maxEnergy, currentEnergy + healAmount);
         UpdateEnergyBar();
 
         if (currentEnergy == maxEnergy)

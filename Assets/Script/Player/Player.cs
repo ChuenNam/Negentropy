@@ -33,14 +33,12 @@ public class Player : MonoBehaviour
 
     public void AddEP(int num)
     {
-        if (EP + num > MaxEP)   return;
-        EP += num;
+        EP = Mathf.Min(MaxEP, EP + num);
         UIManager.Instance.UpdateEnergyUI(EP);
     }   
     public void MinusEP(int num)
     {
-        if (EP - num < 0)   return;
-        EP -= num;
+        EP = Mathf.Max(0, EP - num);
         UIManager.Instance.UpdateEnergyUI(EP);
     }
 
