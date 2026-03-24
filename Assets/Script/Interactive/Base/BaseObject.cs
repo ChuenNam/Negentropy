@@ -145,10 +145,14 @@ public abstract class BaseObject : MonoBehaviour
     // 扣能量方法（外部调用）
     public void TakeDamage(int damage)
     {
-        OnEnergyChange?.Invoke();
-        if (maxEnergy == -1) return;
+        if (maxEnergy == -1)
+        {
+            OnEnergyChange?.Invoke();
+            return;
+        }
 
         currentEnergy = Mathf.Max(0, currentEnergy - damage);
+        OnEnergyChange?.Invoke();
         UpdateEnergyBar();
         
         // 能量为0时调用事件
@@ -161,10 +165,14 @@ public abstract class BaseObject : MonoBehaviour
     // 回能量方法（外部调用）
     public void Heal(int healAmount)
     {
-        OnEnergyChange?.Invoke();
-        if (maxEnergy == -1) return;
+        if (maxEnergy == -1)
+        {
+            OnEnergyChange?.Invoke();
+            return;
+        }
         
         currentEnergy = Mathf.Min(maxEnergy, currentEnergy + healAmount);
+        OnEnergyChange?.Invoke();
         UpdateEnergyBar();
 
         if (currentEnergy == maxEnergy)
