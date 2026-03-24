@@ -26,14 +26,14 @@ public class Shape : BaseObject
             {
                 if (i < stageTransform.Count)
                 {
-                    StartCoroutine(TransformShape(stageTransform[i]));
+                    StartCoroutine(transform.TransformShape(stageTransform[i], transformTime));
                 }
                 break;
             }
         }
     }
 
-    private IEnumerator TransformShape(Vector3 targetScale)
+    /*private IEnumerator TransformShape(Vector3 targetScale)
     {
         var startScale = transform.localScale;
         var elapsedTime = 0f;
@@ -46,5 +46,5 @@ public class Shape : BaseObject
         }
 
         transform.localScale = targetScale;
-    }
+    }*/
 }

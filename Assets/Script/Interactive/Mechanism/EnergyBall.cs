@@ -10,7 +10,7 @@ public class EnergyBall : BaseObject
 
         OnEnergyChange += () =>
         {
-            Player.Instance.AddEP(Player.Instance.MaxEP);
+            Player.Instance.SetEP(Player.Instance.MaxEP);
         };
     }
     

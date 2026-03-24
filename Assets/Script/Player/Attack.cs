@@ -3,12 +3,29 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+public class Attack : MonoBehaviour, IAttack
 {
     [Header("攻击参数")]
     public float velocity;
-    public int damage = 10;
     
+    [SerializeField] private int damage = 10;
+    public int Damage
+    {
+        get => damage; 
+        set => damage = value;
+    }
+    public Element ElementType
+    { 
+        get => Player.Instance.element;
+        set
+        {
+            Player.Instance.element = value; 
+            UIManager.Instance.UpdateElementUI(ElementType);
+        }
+    }
+    [SerializeField] private float reactionRange;
+    public float ReactionRange => reactionRange;
+
     [Header("攻击状态")]
     public bool isAttacking;
     public bool absorb;
@@ -37,6 +54,10 @@ public class Attack : MonoBehaviour
             {
                 // 是释放技能
                 Debug.Log("释放技能");
+                if (target is IElement elementTarget)
+                {
+                    elementTarget.Reaction(this);
+                }
             }
         }
         else
@@ -65,6 +86,10 @@ public class Attack : MonoBehaviour
             else
             {
                 Debug.Log("释放技能");
+                if (target is IElement elementTarget)
+                {
+                    elementTarget.Reaction(this);
+                }
             }
         }
         else
@@ -84,15 +109,18 @@ public class Attack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-
-    
     void Update()
     {
         Lock();
-        
         DoAttack();
     }
-
+    
+    
+    public void ReactionAttack(IElement t)
+    {
+        target.TakeDamage(damage * 2);
+        Player.Instance.AddEP(3);
+    }
 
     private void Lock()
     {
@@ -140,5 +168,4 @@ public class Attack : MonoBehaviour
             
         }
     }
-    
 }

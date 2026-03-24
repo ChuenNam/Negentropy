@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum Element
 {
-    common,
-    fire,
-    electricity
+    common = 0,
+    fire = 1,
+    electricity = 2
 }
-
 
 
 public class Player : MonoBehaviour
@@ -29,16 +29,39 @@ public class Player : MonoBehaviour
     [Space]
     public int HP;
     public int EP;
+
+    public int elementPoint;
     public Element element;
 
     public void AddEP(int num)
     {
+        // 获取元素逻辑
+        if (element == Element.common || elementPoint == 0)
+        {
+            var tmp = elementPoint;
+            for (var i = 0; i < EP+num - MaxEP; i++)
+            {
+                tmp++;
+                if (tmp != 2 || (int)element >= 1) continue;
+                tmp = 0;
+                element += 1;
+            }
+            elementPoint = tmp;
+            UIManager.Instance.UpdateElementUI(elementPoint, element);
+        }
+        
         EP = Mathf.Min(MaxEP, EP + num);
         UIManager.Instance.UpdateEnergyUI(EP);
     }   
     public void MinusEP(int num)
     {
         EP = Mathf.Max(0, EP - num);
+        UIManager.Instance.UpdateEnergyUI(EP);
+    }
+
+    public void SetEP(int num)
+    {
+        EP = num;
         UIManager.Instance.UpdateEnergyUI(EP);
     }
 
@@ -65,11 +88,6 @@ public class Player : MonoBehaviour
         EP = MaxEP;
         UIManager.Instance.UpdateHealthUI(HP);
         UIManager.Instance.UpdateEnergyUI(EP);
-    }
-
-    public void SetElement(Element e)
-    {
-        element = e;
     }
 
     private void Update()

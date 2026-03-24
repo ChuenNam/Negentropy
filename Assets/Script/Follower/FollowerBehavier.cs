@@ -38,7 +38,8 @@ public class FollowerBehavier : MonoBehaviour
         Player.Instance.MinusEP(1);
         meshFilter.mesh = meshes[1];
         followerAttack.AttackType = AttackType.spike;
-        followerAttack.damage = 30;
+        SetElement();
+        followerAttack.Damage = 30;
         
         GetComponent<Animator>().SetBool("isAttack", true);
         transform.LookAt(new Vector3(atkTarget.transform.position.x, 0, atkTarget.transform.position.z));
@@ -61,7 +62,8 @@ public class FollowerBehavier : MonoBehaviour
         Player.Instance.MinusEP(2);
         meshFilter.mesh = meshes[2];
         followerAttack.AttackType = AttackType.ball;
-        followerAttack.damage = 10;
+        SetElement();
+        followerAttack.Damage = 10;
         
         GetComponent<Animator>().SetBool("isAttack", true);
         transform.LookAt(new Vector3(atkTarget.transform.position.x, 0, atkTarget.transform.position.z));
@@ -93,6 +95,9 @@ public class FollowerBehavier : MonoBehaviour
         
         isAttacking = false;
         isReturning = true;
+        // 重置数据
+        followerAttack.AttackType = AttackType.none;
+        followerAttack.Damage = 0;
         
         // 返回到起始位置
         while (Vector3.Distance(follower.position, startPos.position) > 0.1f)
@@ -107,6 +112,14 @@ public class FollowerBehavier : MonoBehaviour
         meshFilter.mesh = meshes[0];
         GetComponent<Move>().canMove = true;
         GetComponent<Animator>().SetBool("isAttack", false);
+    }
+
+    private void SetElement()
+    {
+        var atk = GetComponent<Attack>();
+        followerAttack.ElementType = atk.ElementType;
+        followerAttack.ElementType.SetElementColor(follower.GetComponent<MeshRenderer>().material);
+        atk.ElementType = Element.common;
     }
 
 

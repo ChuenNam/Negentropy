@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class Shield : BaseObject, ICanBeAttack, IBreakable
     public bool canBreak = false;
     public GameObject shieldPrefab;
     private GameObject shield;
+    
+    public Action OnHitCallback { get; set; }
 
     protected override void OnEnable()
     {
@@ -27,6 +30,8 @@ public class Shield : BaseObject, ICanBeAttack, IBreakable
     protected override void OnDisable()
     {
         base.OnDisable();
+        OnHitCallback = null;
+        
         if (player == null)     return;
         var p = player.GetComponent<Attack>();
         p.target = null;
@@ -38,12 +43,12 @@ public class Shield : BaseObject, ICanBeAttack, IBreakable
 
     public void OnAttackedInvoke(Attacker attacker)
     {
+        OnHitCallback?.Invoke();
+        TakeDamage(attacker.Damage);
         if (canBreak && attacker.AttackType == AttackType.ball)
         {
             OnBreakInvoke(attacker);
         }
-        
-        TakeDamage(attacker.damage);
     }
 
     public void OnBreakInvoke(Attacker attacker)
@@ -51,6 +56,4 @@ public class Shield : BaseObject, ICanBeAttack, IBreakable
         GetComponent<BaseEnemy>().canInteract = true;
         this.enabled = false;
     }
-    
-    
 }

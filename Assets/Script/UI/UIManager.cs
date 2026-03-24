@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     }
 
     public List<Image> energyImgs;
+    public List<Image> elementImgs;
     public RectTransform healthBar;
 
     public void UpdateEnergyUI(int num)
@@ -28,6 +29,16 @@ public class UIManager : MonoBehaviour
         {
             energyImgs[i].color = Color.white;
         }
+    }
+
+    public void UpdateElementUI(Element element)
+    {
+        element.SetElementColor(elementImgs[1]);
+    }
+    public void UpdateElementUI(int num, Element element)
+    {
+        elementImgs[0].color = num == 1 ? Color.cyan : Color.white;
+        element.SetElementColor(elementImgs[1]);
     }
 
     public void UpdateHealthUI(int num)

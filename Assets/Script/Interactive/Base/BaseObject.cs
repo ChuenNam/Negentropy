@@ -55,7 +55,7 @@ public abstract class BaseObject : MonoBehaviour
         UpdateEnergyBar();
     }
 
-    private void Update()
+    protected void Update()
     {
         // 实时更新能量条位置
         if (energyBarInstance != null && energyBarFollowPoint != null)
