@@ -19,4 +19,11 @@ public class UIManager : MonoBehaviour
     public PlayerUI playerUI;
     public ConsoleUI consoleUI;
     public LogUI logUI;
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+            consoleUI.ShowConsole();
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,16 +51,12 @@ public class ConsoleUI : MonoBehaviour
             detailPanels[value].SetActive(true);
         }
     }
-
-
     
-    public void OnConsole(InputValue value)
+    
+    
+    public void ShowConsole()
     {
-        Debug.Log("Press");
-        if (value.isPressed)
-        {
-            show = !show;
-            gameObject.SetActive(show);
-        }
+        show = !show;
+        gameObject.SetActive(show);
     }
 }
