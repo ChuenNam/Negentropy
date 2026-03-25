@@ -43,7 +43,70 @@ public static class TransformExtensions
         }
         transform.localScale = targetScale;
     }
+    public static IEnumerator TransformShape(this Transform transform, TransformGroup targetTransform, float transformTime)
+    {
+        var startPosition = transform.position;
+        var startRotation = transform.eulerAngles;
+        var startScale = transform.localScale;
+
+        // 根据枚举标志决定哪些属性需要变换
+        var doPosition = (targetTransform.items & ShowTransformItem.Position) != 0;
+        var doRotation = (targetTransform.items & ShowTransformItem.Rotation) != 0;
+        var doScale    = (targetTransform.items & ShowTransformItem.Scale) != 0;
+
+        var elapsedTime = 0f;
+        while (elapsedTime < transformTime)
+        {
+            var t = elapsedTime / transformTime;
+            if (doPosition)
+                transform.position = Vector3.Lerp(startPosition, targetTransform.Position, t);
+            if (doRotation)
+                transform.eulerAngles = Vector3.Lerp(startRotation, targetTransform.Rotation, t);
+            if (doScale)
+                transform.localScale = Vector3.Lerp(startScale, targetTransform.Scale, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        // 确保最终值正确（只应用需要变换的属性）
+        if (doPosition) transform.position = targetTransform.Position;
+        if (doRotation) transform.eulerAngles = targetTransform.Rotation;
+        if (doScale) transform.localScale = targetTransform.Scale;
+    }
 }
 
+[Flags]
+public enum ShowTransformItem
+{
+    Position = 1 << 0,
+    Rotation = 1 << 1,
+    Scale = 1 << 2
+}
 
+[Serializable]
+public class TransformGroup
+{
+    public ShowTransformItem items = ShowTransformItem.Position | ShowTransformItem.Rotation | ShowTransformItem.Scale;
+    
+    [ShowIf("items", ShowTransformItem.Position)]
+    public Vector3 Position;
+    
+    [ShowIf("items", ShowTransformItem.Rotation)]
+    public Vector3 Rotation;
+    
+    [ShowIf("items", ShowTransformItem.Scale)]
+    public Vector3 Scale;
+}
 
+[System.AttributeUsage(System.AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+public class ShowIfAttribute : PropertyAttribute
+{
+    public string PropertyName { get; private set; }
+    public object CompareValue { get; private set; }
+
+    public ShowIfAttribute(string propertyName, object compareValue)
+    {
+        PropertyName = propertyName;
+        CompareValue = compareValue;
+    }
+}

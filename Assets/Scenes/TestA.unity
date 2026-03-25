@@ -362,6 +362,23 @@ MonoBehaviour:
   - {x: 2, y: 2, z: 3}
   - {x: 2, y: 3, z: 3}
   - {x: 2, y: 5, z: 3}
+  stageTransformGroup:
+  - items: 4
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 2, y: 1, z: 3}
+  - items: 4
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 2, y: 2, z: 3}
+  - items: 5
+    Position: {x: -13, y: 0, z: -1}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 2, y: 3, z: 3}
+  - items: 4
+    Position: {x: -10, y: 10, z: -1}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 2, y: 5, z: 3}
 --- !u!1 &130106249
 GameObject:
   m_ObjectHideFlags: 0

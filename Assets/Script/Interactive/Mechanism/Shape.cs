@@ -7,7 +7,7 @@ public class Shape : BaseObject
     public int defaultEnergy;
     public float transformTime;
     public List<int> stage;
-    public List<Vector3> stageTransform;
+    public List<TransformGroup> stageTransformGroup;
 
     protected override void OnEnable()
     {
@@ -24,27 +24,12 @@ public class Shape : BaseObject
         {
             if (stage[i] == currentEnergy)
             {
-                if (i < stageTransform.Count)
+                if (i < stageTransformGroup.Count)
                 {
-                    StartCoroutine(transform.TransformShape(stageTransform[i], transformTime));
+                    StartCoroutine(transform.TransformShape(stageTransformGroup[i], transformTime));
                 }
                 break;
             }
         }
     }
-
-    /*private IEnumerator TransformShape(Vector3 targetScale)
-    {
-        var startScale = transform.localScale;
-        var elapsedTime = 0f;
-
-        while (elapsedTime < transformTime)
-        {
-            transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / transformTime);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.localScale = targetScale;
-    }*/
 }
