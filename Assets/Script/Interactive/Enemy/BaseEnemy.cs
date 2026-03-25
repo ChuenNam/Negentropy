@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BaseEnemy : BaseObject, ICanBeAttack, IElement
 {
     [Header("基础配置")]
+    public int enemyDamage = 10;
     public int killEnergy;
     public Action OnHitCallback { get; set; }
 

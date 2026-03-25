@@ -55,8 +55,10 @@ public abstract class BaseObject : MonoBehaviour
         UpdateEnergyBar();
     }
 
-    protected void Update()
+    void Update()
     {
+        OnUpdate();
+        
         // 实时更新能量条位置
         if (energyBarInstance != null && energyBarFollowPoint != null)
         {
@@ -107,6 +109,8 @@ public abstract class BaseObject : MonoBehaviour
             Heal(20);
         }
     }
+    protected virtual void OnUpdate() { }
+
 
     // 更新能量条位置（3D坐标转屏幕UI坐标）
     private void UpdateEnergyBarPosition()

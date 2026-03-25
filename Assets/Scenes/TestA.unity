@@ -357,11 +357,6 @@ MonoBehaviour:
   defaultEnergy: 0
   transformTime: 0.5
   stage: 000000000a000000140000001e000000
-  stageTransform:
-  - {x: 2, y: 1, z: 3}
-  - {x: 2, y: 2, z: 3}
-  - {x: 2, y: 3, z: 3}
-  - {x: 2, y: 5, z: 3}
   stageTransformGroup:
   - items: 4
     Position: {x: 0, y: 0, z: 0}
@@ -2405,6 +2400,7 @@ MonoBehaviour:
   energyBarFollowPoint: {fileID: 984842388}
   maxEnergy: 100
   currentEnergy: 0
+  enemyDamage: 10
   killEnergy: 1
   elementState: 0
 --- !u!1 &1138994451
@@ -2919,7 +2915,7 @@ Transform:
   m_GameObject: {fileID: 1247541894}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.07, y: 0.838, z: 2.99}
+  m_LocalPosition: {x: 10, y: 0.5, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2934,7 +2930,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1247541894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55b11dec710646a4db32fcb4f7f503ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 5acd959658a64b6d8eee616f72ef9602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 1
@@ -2942,10 +2938,15 @@ MonoBehaviour:
   energyBarPrefab: {fileID: 776439403670589680, guid: 1eb10cf3d3968c349853928d267370a3,
     type: 3}
   energyBarFollowPoint: {fileID: 1247541899}
-  maxEnergy: 100
+  maxEnergy: 50
   currentEnergy: 0
+  enemyDamage: 10
   killEnergy: 1
   elementState: 0
+  alwaysTrack: 0
+  checkRange: 8
+  trackVelocity: 1
+  waitTime: 1
 --- !u!1 &1264834888
 GameObject:
   m_ObjectHideFlags: 0
@@ -3495,6 +3496,7 @@ MonoBehaviour:
   energyBarFollowPoint: {fileID: 1393992240}
   maxEnergy: 100
   currentEnergy: 0
+  enemyDamage: 10
   killEnergy: 1
   elementState: 0
 --- !u!1 &1411457547
