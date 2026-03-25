@@ -8,17 +8,18 @@ public abstract class BaseObject : MonoBehaviour
 {
     public bool canInteract = true;
     public float range = 5;
-    [Header("能量条配置")]
-    public GameObject energyBarPrefab;  // 能量条预制体
-    public Transform energyBarFollowPoint;  // 能量条跟随的点
+    
     [Header("能量配置")]
     public int maxEnergy = 100;
     public int currentEnergy;
+    public Transform energyBarFollowPoint;  // 能量条跟随的点
+    
     private bool showBar;  // 显示能量条
+    private GameObject energyBarPrefab;  // 能量条预制体
     protected GameObject energyBarInstance; // 能量条实例
     private Image energyFillImage;  // 能量条填充Image
     
-    protected Transform player;
+    [HideInInspector]public Transform player;
     public Action OnEnergyFill;
     public Action OnEnergyEmpty;
     public Action OnEnergyChange;
@@ -216,4 +217,9 @@ public abstract class BaseObject : MonoBehaviour
         DestroyEnergyBar();
     }
 
+    private void Awake()
+    {
+        energyBarPrefab = Resources.Load<GameObject>($"Prefab/UI/EBar");
+        if (!energyBarFollowPoint) energyBarFollowPoint = transform;
+    }
 }

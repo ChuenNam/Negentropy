@@ -7,7 +7,7 @@ public class Shield : BaseObject, ICanBeAttack, IBreakable
 {
     [Header("基础配置")]
     public bool canBreak = false;
-    public GameObject shieldPrefab;
+    private GameObject shieldPrefab;
     private GameObject shield;
     
     public Action OnHitCallback { get; set; }
@@ -15,6 +15,8 @@ public class Shield : BaseObject, ICanBeAttack, IBreakable
     protected override void OnEnable()
     {
         base.OnEnable();
+        if (shieldPrefab == null) 
+            shieldPrefab = Resources.Load<GameObject>($"Prefab/Item/Shield");
         if (shield == null)
         {
             shield = Instantiate(shieldPrefab, transform);

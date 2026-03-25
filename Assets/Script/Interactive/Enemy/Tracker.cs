@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrackerEnemy : BaseEnemy
+public class Tracker : MonoBehaviour
 {
     public bool alwaysTrack;
     public float checkRange = 8;
@@ -12,8 +12,16 @@ public class TrackerEnemy : BaseEnemy
     
     private bool isTracking;
     private bool isWaiting;
+    private BaseEnemy self;
+    private Transform player;
 
-    protected override void OnUpdate()
+    private void Start()
+    {
+        self = GetComponent<BaseEnemy>();
+        player = self.player;
+    }
+
+    void Update()
     {
         if (isWaiting) return;
         
@@ -29,7 +37,7 @@ public class TrackerEnemy : BaseEnemy
             if (direction == Vector3.zero)
                 return;
             transform.position += direction * trackVelocity * Time.deltaTime;
-            transform.LookAt(player.transform);
+            transform.LookAt(transform);
         }
     }
 
@@ -37,7 +45,7 @@ public class TrackerEnemy : BaseEnemy
     {
         var direction = (player.transform.position - transform.position).normalized;
         transform.position += -direction * trackVelocity * .5f;
-        Player.Instance.MinusHP(enemyDamage);
+        Player.Instance.MinusHP(self.enemyDamage);
         StartCoroutine(AttackWait());
     }
 
