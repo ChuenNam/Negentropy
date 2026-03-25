@@ -27,3 +27,8 @@ public interface IElement
     public Element ElementState { get; set; }
     public void Reaction(IAttack attacker);     // 基于只有火元素触发，若有多种元素触发扩展则添加参数触发元素类型
 }
+
+public interface ICheckPlayer
+{
+    public float CheckRange { get; }
+}

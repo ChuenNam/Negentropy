@@ -24,10 +24,11 @@ public class BreakWall : BaseObject, ICanBeAttack, IBreakable
     public void OnAttackedInvoke(Attacker attacker)
     {
         if (!canInteract)    return;
+        OnHitCallback?.Invoke();
+        TakeDamage(attacker.Damage);
         if (canBreak && attacker.AttackType == AttackType.ball)
         {
             Debug.Log("Break");
-            OnHitCallback?.Invoke();
             OnBreakInvoke(attacker);
         }
     }

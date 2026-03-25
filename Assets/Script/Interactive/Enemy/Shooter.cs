@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
+    public float checkRange;
     public float bulletSpeed;
     public int bulletDamage;
     public float shotInterval;
@@ -36,7 +37,7 @@ public class Shooter : MonoBehaviour
                 shotTimer = shotInterval;
             }
         }
-        if (Vector3.Distance(player.position, transform.position) < self.range)
+        if (Vector3.Distance(player.position, transform.position) < checkRange)
         {
             if (!hasShot)
             {

@@ -68,9 +68,6 @@ public class Attacker : MonoBehaviour, IAttack
                 break;
             }
         }
-        /*// 重置数据
-        attackType = AttackType.none;
-        damage = 0;*/
     }
 
     private GameObject boomWavePrefab;

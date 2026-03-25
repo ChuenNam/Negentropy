@@ -20,7 +20,7 @@ public class Attack : MonoBehaviour, IAttack
         set
         {
             Player.Instance.element = value; 
-            UIManager.Instance.UpdateElementUI(ElementType);
+            UIManager.Instance.playerUI.UpdateElementUI(ElementType);
         }
     }
     [SerializeField] private float reactionRange;

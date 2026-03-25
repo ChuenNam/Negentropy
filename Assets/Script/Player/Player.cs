@@ -47,29 +47,29 @@ public class Player : MonoBehaviour
                 element += 1;
             }
             elementPoint = tmp;
-            UIManager.Instance.UpdateElementUI(elementPoint, element);
+            UIManager.Instance.playerUI.UpdateElementUI(elementPoint, element);
         }
         
         EP = Mathf.Min(MaxEP, EP + num);
-        UIManager.Instance.UpdateEnergyUI(EP);
+        UIManager.Instance.playerUI.UpdateEnergyUI(EP);
     }   
     public void MinusEP(int num)
     {
         EP = Mathf.Max(0, EP - num);
-        UIManager.Instance.UpdateEnergyUI(EP);
+        UIManager.Instance.playerUI.UpdateEnergyUI(EP);
     }
 
     public void SetEP(int num)
     {
         EP = num;
-        UIManager.Instance.UpdateEnergyUI(EP);
+        UIManager.Instance.playerUI.UpdateEnergyUI(EP);
     }
 
     public void AddHP(int num)
     {
         if (HP + num > MaxHP) return;
         HP += num;
-        UIManager.Instance.UpdateHealthUI(HP);
+        UIManager.Instance.playerUI.UpdateHealthUI(HP);
     }
     public void MinusHP(int num)
     {
@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
             Debug.Log("Player死亡");
         }
         HP -= num;
-        UIManager.Instance.UpdateHealthUI(HP);
+        UIManager.Instance.playerUI.UpdateHealthUI(HP);
     }
     
     
@@ -86,8 +86,8 @@ public class Player : MonoBehaviour
     {
         HP = MaxHP;
         EP = MaxEP;
-        UIManager.Instance.UpdateHealthUI(HP);
-        UIManager.Instance.UpdateEnergyUI(EP);
+        UIManager.Instance.playerUI.UpdateHealthUI(HP);
+        UIManager.Instance.playerUI.UpdateEnergyUI(EP);
     }
 
     private void Update()
