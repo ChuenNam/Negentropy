@@ -146,24 +146,45 @@ public class Attack : MonoBehaviour, IAttack
         
         transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
         clock += Time.deltaTime;
-        if (clock >= velocity)
+        
+        var takeDamage = Damage;
+        var takeVelocity = velocity;
+        if (target is IElement elementTarget)
+        {
+            switch (elementTarget.ElementState)
+            {
+                case Element.fire:
+                    takeDamage += 10;
+                    break;
+                case Element.electricity:
+                    takeVelocity /= 2;
+                    break;
+            }
+        }
+        if (clock >= takeVelocity)
         {
             clock = 0;
-            if (release)
+            
+
+            if (release && Player.Instance.EP > 0)
             {
                 // TODO: 目标满能量时给予恢复的效果？？？
                 if (target.currentEnergy == target.maxEnergy)   return;
                 
                 Player.Instance.MinusEP(1);
-                target.Heal(damage);
+                target.Heal(Damage);
             }
 
-            if (absorb)
+            switch (absorb)
             {
-                if (target.currentEnergy == 0) return;
+                case true:
+                {
+                    if (target.currentEnergy == 0) return;
                 
-                Player.Instance.AddEP(1);
-                target.TakeDamage(damage);
+                    Player.Instance.AddEP(1);
+                    target.TakeDamage(takeDamage);
+                    break;
+                }
             }
             
         }
