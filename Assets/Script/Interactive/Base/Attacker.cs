@@ -33,6 +33,8 @@ public class Attacker : MonoBehaviour, IAttack
             elementType.SetElementColor(GetComponent<MeshRenderer>().material);
         }
     }
+    public int reactionStage = 3;
+    
     [SerializeField] private float reactionRange;
     public float ReactionRange => reactionRange;
 
@@ -62,7 +64,7 @@ public class Attacker : MonoBehaviour, IAttack
             {
                 if (obj is IElement elementObject)
                 {
-                    elementObject.Reaction(this);
+                    elementObject.Reaction(this, reactionStage);
                 }
                 target.OnAttackedInvoke(this);
                 break;

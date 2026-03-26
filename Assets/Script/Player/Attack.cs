@@ -31,6 +31,9 @@ public class Attack : MonoBehaviour, IAttack
     public bool absorb;
     public bool release;
     public float clock = 0;
+    public bool lockFire = false;
+    public bool lockElectricity = false;
+    public bool lockBoom = false;
 
     [Header("目标信息")]
     public BaseObject target;
@@ -53,10 +56,11 @@ public class Attack : MonoBehaviour, IAttack
             else
             {
                 // 是释放技能
-                Debug.Log("释放技能");
+                var stage = !lockFire ? (!lockElectricity ? (!lockBoom ? 3 : 2) : 1) : 0;
+                GetComponent<FollowerBehavier>().followerAttack.reactionStage = stage;
                 if (target is IElement elementTarget)
                 {
-                    elementTarget.Reaction(this);
+                    elementTarget.Reaction(this, stage);
                 }
             }
         }
@@ -85,10 +89,11 @@ public class Attack : MonoBehaviour, IAttack
             }
             else
             {
-                Debug.Log("释放技能");
+                var stage = !lockFire ? (!lockElectricity ? (!lockBoom ? 3 : 2) : 1) : 0;
+                GetComponent<FollowerBehavier>().followerAttack.reactionStage = stage;
                 if (target is IElement elementTarget)
                 {
-                    elementTarget.Reaction(this);
+                    elementTarget.Reaction(this, stage);
                 }
             }
         }

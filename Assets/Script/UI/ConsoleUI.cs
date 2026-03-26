@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -25,14 +24,14 @@ public class ConsoleUI : MonoBehaviour
     [Header("玩家信息")]
     public PlayerInfoTool playerInfoTool;
     public List<Toggle> toggles3;
-    public List<InputField> inputFields;  
+    public List<TMP_InputField> inputFields;  
 
     private void Start()
     {
         // 面板选择与显示监听
         functionOption.onValueChanged.AddListener((arg) => ChangeDetailPanel());
 
-        // Gizmos面板
+        #region Gizmos面板
         for (var i = 0; i < toggles1.Count; i++)
         {
             var toggle = toggles1[i];
@@ -42,11 +41,12 @@ public class ConsoleUI : MonoBehaviour
                 gizmosControl.SetBool(index, arg); 
             });
         }
-        
-        // 创建敌人面板
+        #endregion
+
+        #region 创建敌人面板
         for (var i = 0; i < toggles2.Count; i++)
         {
-            var  toggle = toggles2[i];
+            var toggle = toggles2[i];
             var index = i;
             toggle.onValueChanged.AddListener(arg =>
             {
@@ -54,6 +54,31 @@ public class ConsoleUI : MonoBehaviour
             });
         }
         generateButton.onClick.AddListener(generateTool.GenerateEnemy);
+        #endregion
+
+        #region 玩家信息面板
+        for (var i = 0; i < toggles3.Count; i++)
+        {
+            var toggle = toggles3[i];
+            var index = i;
+            toggle.onValueChanged.AddListener(arg =>
+            {
+                playerInfoTool.SetBool(index, arg);
+            });
+            toggle.isOn = playerInfoTool.GetBool(index);
+        }
+
+        for (var i = 0; i < inputFields.Count; i++)
+        {
+            var inputField = inputFields[i];
+            var index = i;
+            inputField.onValueChanged.AddListener(arg =>
+            {
+                playerInfoTool.SetInt(index, int.Parse(arg));
+            });
+            inputField.text = playerInfoTool.GetInt(index).ToString();
+        }
+        #endregion
         
     }
 
@@ -72,8 +97,6 @@ public class ConsoleUI : MonoBehaviour
             detailPanels[value].SetActive(true);
         }
     }
-    
-    
     
     public void ShowConsole()
     {

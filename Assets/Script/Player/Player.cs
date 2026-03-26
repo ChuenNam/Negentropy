@@ -81,6 +81,17 @@ public class Player : MonoBehaviour
         UIManager.Instance.playerUI.UpdateHealthUI(HP);
     }
     
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            AddEP(1);
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            MinusEP(1);
+        }
+    }
     
     void Start()
     {
@@ -88,18 +99,5 @@ public class Player : MonoBehaviour
         EP = MaxEP;
         UIManager.Instance.playerUI.UpdateHealthUI(HP);
         UIManager.Instance.playerUI.UpdateEnergyUI(EP);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            AddEP(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            MinusEP(1);
-        }
     }
 }

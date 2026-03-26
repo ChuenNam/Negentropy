@@ -7,6 +7,8 @@ using UnityEngine;
 public class FollowerBehavier : MonoBehaviour
 {
     public Transform follower;
+    public bool lockSpike = false;
+    public bool lockBall = false;
 
     public Transform startPos;
     public Transform atkTarget;
@@ -19,11 +21,13 @@ public class FollowerBehavier : MonoBehaviour
     
     private bool isAttacking = false; // 是否正在攻击
     private bool isReturning = false; // 是否正在返回
-    private Attacker followerAttack;
     private MeshFilter meshFilter;
+    [HideInInspector] public Attacker followerAttack;
 
     public void OnAtkE(InputValue value)    // 尖刺攻击 Spike
     {
+        if (lockSpike) return;
+        
         var baseEnemy = GetComponent<Attack>().target;
         if (baseEnemy) 
             atkTarget = baseEnemy.transform;
@@ -48,6 +52,8 @@ public class FollowerBehavier : MonoBehaviour
 
     public void OnAtkQ(InputValue value)    // 重锤攻击 ball
     {
+        if (lockBall) return;
+        
         var baseEnemy = GetComponent<Attack>().target;
         if (baseEnemy)
             atkTarget = baseEnemy.transform;

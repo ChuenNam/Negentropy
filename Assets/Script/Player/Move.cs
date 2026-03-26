@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class Move : MonoBehaviour
 {
     [Header("移动参数")]
-    [SerializeField] private float maxSpeed = 5f;
+    [SerializeField] public float maxSpeed = 5f;
     [SerializeField] private float rotationSpeed = 10f;
 
     [Header("跳跃参数")]

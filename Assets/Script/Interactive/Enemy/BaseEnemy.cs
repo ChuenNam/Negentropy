@@ -45,19 +45,22 @@ public class BaseEnemy : BaseObject, ICanBeAttack, IElement
         set => elementState = value;
     }
     
-    public void Reaction(IAttack attacker)
+    public void Reaction(IAttack attacker, int unlockStage)
     {
         if (attacker.ElementType != Element.fire)   
             return;
         switch (ElementState)
         {
             case Element.common:    // 无元素附着
+                if (unlockStage < 1) break;
                 ElementState = Element.fire;
                 break;
             case Element.fire:  // 火 + 火 => 雷
+                if (unlockStage < 2) break;
                 elementState = Element.electricity;
                 break;
             case Element.electricity:   // 雷 + 火 => 爆炸
+                if (unlockStage < 3) break;
                 elementState = Element.common;
                 attacker.ReactionAttack(this);
                 break;
