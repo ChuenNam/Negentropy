@@ -15,7 +15,17 @@ public class ConsoleUI : MonoBehaviour
     
     [Header("范围Gizmos")]
     public GizmosControl gizmosControl;
-    public List<Toggle> toggles;
+    public List<Toggle> toggles1;
+    
+    [Header("创建敌人")]
+    public GenerateTool generateTool;
+    public Button generateButton;
+    public List<Toggle> toggles2;
+    
+    [Header("玩家信息")]
+    public PlayerInfoTool playerInfoTool;
+    public List<Toggle> toggles3;
+    public List<InputField> inputFields;  
 
     private void Start()
     {
@@ -23,9 +33,9 @@ public class ConsoleUI : MonoBehaviour
         functionOption.onValueChanged.AddListener((arg) => ChangeDetailPanel());
 
         // Gizmos面板
-        for (var i = 0; i < toggles.Count; i++)
+        for (var i = 0; i < toggles1.Count; i++)
         {
-            var toggle = toggles[i];
+            var toggle = toggles1[i];
             var index = i;
             toggle.onValueChanged.AddListener(arg =>
             {
@@ -33,6 +43,17 @@ public class ConsoleUI : MonoBehaviour
             });
         }
         
+        // 创建敌人面板
+        for (var i = 0; i < toggles2.Count; i++)
+        {
+            var  toggle = toggles2[i];
+            var index = i;
+            toggle.onValueChanged.AddListener(arg =>
+            {
+                generateTool.SetBool(index, arg);
+            });
+        }
+        generateButton.onClick.AddListener(generateTool.GenerateEnemy);
         
     }
 

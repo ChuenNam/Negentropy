@@ -33,7 +33,7 @@ public class Tracker : MonoBehaviour
 
         if (isTracking)
         {
-            var direction = (player.transform.position - transform.position).normalized;
+            var direction = ((player.transform.position + Vector3.up*.5f) - transform.position).normalized;
             if (direction == Vector3.zero)
                 return;
             transform.position += direction * trackVelocity * Time.deltaTime;
@@ -43,6 +43,8 @@ public class Tracker : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        if (!other.gameObject.CompareTag("Player"))  
+            return;
         var direction = (player.transform.position - transform.position).normalized;
         transform.position += -direction * trackVelocity * .5f;
         Player.Instance.MinusHP(self.enemyDamage);

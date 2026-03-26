@@ -6,7 +6,7 @@ using UnityEngine;
 public class Shield : BaseObject, ICanBeAttack, IBreakable
 {
     [Header("基础配置")]
-    public bool canBreak = false;
+    private bool canBreak = false;
     private GameObject shieldPrefab;
     private GameObject shield;
     

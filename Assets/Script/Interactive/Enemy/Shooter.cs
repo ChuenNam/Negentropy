@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
-    public float checkRange;
-    public float bulletSpeed;
-    public int bulletDamage;
-    public float shotInterval;
+    public float checkRange = 8;
+    public float bulletSpeed = 1;
+    public int bulletDamage = 10;
+    public float shotInterval = 2;
 
     private GameObject bulletPrefab;
     private BaseEnemy self;
     private Transform player;
     
     private Queue<GameObject> bulletPool = new();
-    public float shotTimer;
-    public bool hasShot;
+    private float shotTimer;
+    private bool hasShot;
 
     private void Start()
     {
