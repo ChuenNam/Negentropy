@@ -1012,7 +1012,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8303\u56F4\u663E\u793A"
+  m_text: "\u73A9\u5BB6\u9762\u677F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 708100f05687a8c4e886a2d010826123, type: 2}
   m_sharedMaterial: {fileID: 2163379844772511450, guid: 708100f05687a8c4e886a2d010826123,
@@ -8691,11 +8691,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: "\u73A9\u5BB6\u9762\u677F"
+      m_Image: {fileID: 0}
     - m_Text: "\u8303\u56F4\u663E\u793A"
       m_Image: {fileID: 0}
     - m_Text: "\u521B\u5EFA\u5DE5\u5177"
-      m_Image: {fileID: 0}
-    - m_Text: "\u73A9\u5BB6\u9762\u677F"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9826,7 +9826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1674145689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9840,9 +9840,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1414860387}
+  - {fileID: 691999548}
   - {fileID: 1811070196}
   - {fileID: 926766285}
-  - {fileID: 691999548}
   m_Father: {fileID: 403196834}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -9903,20 +9903,9 @@ MonoBehaviour:
   show: 1
   functionOption: {fileID: 1414860388}
   detailPanels:
+  - {fileID: 691999546}
   - {fileID: 1811070195}
   - {fileID: 926766284}
-  - {fileID: 691999546}
-  gizmosControl: {fileID: 1906690359}
-  toggles1:
-  - {fileID: 909755111}
-  - {fileID: 1061030108}
-  - {fileID: 947496258}
-  generateTool: {fileID: 1906690361}
-  generateButton: {fileID: 1796632235}
-  toggles2:
-  - {fileID: 664197682}
-  - {fileID: 1740514386}
-  - {fileID: 1867589993}
   playerInfoTool: {fileID: 1906690362}
   toggles3:
   - {fileID: 1037224920}
@@ -9929,6 +9918,17 @@ MonoBehaviour:
   - {fileID: 1962010577}
   - {fileID: 474881399}
   - {fileID: 1395178976}
+  gizmosControl: {fileID: 1906690359}
+  toggles1:
+  - {fileID: 909755111}
+  - {fileID: 1061030108}
+  - {fileID: 947496258}
+  generateTool: {fileID: 1906690361}
+  generateButton: {fileID: 1796632235}
+  toggles2:
+  - {fileID: 664197682}
+  - {fileID: 1740514386}
+  - {fileID: 1867589993}
 --- !u!1 &1695046075
 GameObject:
   m_ObjectHideFlags: 0
@@ -11222,9 +11222,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1906690360}
+  - component: {fileID: 1906690362}
   - component: {fileID: 1906690359}
   - component: {fileID: 1906690361}
-  - component: {fileID: 1906690362}
   m_Layer: 0
   m_Name: "\u6D4B\u8BD5\u5DE5\u5177"
   m_TagString: Untagged

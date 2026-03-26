@@ -12,6 +12,11 @@ public class ConsoleUI : MonoBehaviour
     public TMP_Dropdown functionOption;
     public List<GameObject> detailPanels;
     
+    [Header("玩家信息")]
+    public PlayerInfoTool playerInfoTool;
+    public List<Toggle> toggles3;
+    public List<TMP_InputField> inputFields;  
+    
     [Header("范围Gizmos")]
     public GizmosControl gizmosControl;
     public List<Toggle> toggles1;
@@ -20,11 +25,6 @@ public class ConsoleUI : MonoBehaviour
     public GenerateTool generateTool;
     public Button generateButton;
     public List<Toggle> toggles2;
-    
-    [Header("玩家信息")]
-    public PlayerInfoTool playerInfoTool;
-    public List<Toggle> toggles3;
-    public List<TMP_InputField> inputFields;  
 
     private void Start()
     {
