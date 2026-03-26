@@ -2,17 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using System;
 
 public class LogUI : MonoBehaviour
 {
+    public GameObject logPanel;
     public TextMeshProUGUI speaker;
     public TextMeshProUGUI content;
+    
+    public bool showing;
+    private Queue<LogNode> logsQueue = new();
+    public Action onLogOver;
 
+    public void AddToLogLink(List<LogNode> logLink)
+    {
+        foreach (var logNode in logLink)
+            logsQueue.Enqueue(logNode);
+        if (!showing)
+            ShowInfo();
+    }
+    
     public void ShowInfo()
     {
+        logPanel.SetActive(true);
+        showing = true;
+        StartCoroutine(StartShowLog());
+    }
+
+    private IEnumerator StartShowLog()
+    {
+        var logs = logsQueue.ToArray();
+        foreach (var logNode in logs)
+        {
+            speaker.text = logNode.logSpeaker;
+            content.text = logNode.logContent;
+            yield return new WaitForSeconds(logNode.waitTime);
+            logsQueue.Dequeue();
+        }
+        if (logsQueue.Count != 0)
+            yield return StartShowLog();
         
-        
-        
+        onLogOver?.Invoke();
+        yield return null;
+    }
+
+    private void OnEnable()
+    {
+        onLogOver += () =>
+        {
+            showing = false;
+            logPanel.SetActive(false);
+        };
+    }
+
+    private void OnDisable()
+    {
+        onLogOver = null;
     }
 }
