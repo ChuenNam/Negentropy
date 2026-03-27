@@ -7,7 +7,7 @@ public class Manifestation : BaseObject
     [Header("参数")] 
     public bool canRecycle;
     public int defaultEnergy;
-    public Vector2 alphaRange;
+    public Vector2 alphaRange = new(.1f, 1);
     private Material material;
     private Collider coll;
 
