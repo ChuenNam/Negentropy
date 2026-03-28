@@ -30,13 +30,14 @@ public class Player : MonoBehaviour
     public int HP;
     public int EP;
 
+    public bool lockElement = true;
     public int elementPoint;
     public Element element;
 
     public void AddEP(int num)
     {
         // 获取元素逻辑
-        if (element == Element.common || elementPoint == 0)
+        if (!lockElement && (element == Element.common || elementPoint == 0))
         {
             var tmp = elementPoint;
             for (var i = 0; i < EP+num - MaxEP; i++)
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
             elementPoint = tmp;
             UIManager.Instance.playerUI.UpdateElementUI(elementPoint, element);
         }
-        
+
         EP = Mathf.Min(MaxEP, EP + num);
         UIManager.Instance.playerUI.UpdateEnergyUI(EP);
     }   

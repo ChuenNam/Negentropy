@@ -58,4 +58,9 @@ public class Shield : BaseObject, ICanBeAttack, IBreakable
         GetComponent<BaseEnemy>().canInteract = true;
         this.enabled = false;
     }
+    
+    private void Start()
+    {
+        GetComponent<MeshRenderer>().material.color = Color.red;
+    }
 }

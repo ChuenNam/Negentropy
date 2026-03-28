@@ -16,6 +16,10 @@ public class Shape : BaseObject
         UpdateEnergyBar();
         
         OnEnergyChange += ChangeStageShape;
+        
+        OnEnergyChange?.Invoke();
+        if (currentEnergy == maxEnergy)
+            OnEnergyFill?.Invoke();
     }
 
     private void ChangeStageShape()

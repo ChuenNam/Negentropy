@@ -43,5 +43,9 @@ public class Manifestation : BaseObject
                 
             material.SetFloat("_Alpha", alpha);
         };
+        
+        OnEnergyChange?.Invoke();
+        if (currentEnergy == maxEnergy)
+            OnEnergyFill?.Invoke();
     }
 }

@@ -31,15 +31,24 @@ public class Attack : MonoBehaviour, IAttack
     public bool absorb;
     public bool release;
     public float clock = 0;
+    [Header("能力解锁")]
     public bool lockFire = false;
     public bool lockElectricity = false;
     public bool lockBoom = false;
+    public void UnlockFire()
+    {
+        lockFire = false;
+        Player.Instance.lockElement = false;
+    }
+    public void UnlockElectricity() => lockElectricity = false;
+    public void UnlockBoom() => lockBoom = false;
 
     [Header("目标信息")]
     public BaseObject target;
     public List<BaseObject> enemies;
 
     private Animator animator;
+    private Camera mainCamera;
     
     public void OnAbsorb(InputValue value)
     {
@@ -109,13 +118,15 @@ public class Attack : MonoBehaviour, IAttack
         }
     }
 
-
     void Start()
     {
         animator = GetComponent<Animator>();
+        mainCamera = Camera.main;
     }
     void Update()
     {
+        if (enemies.Count == 0)     
+            target = null;
         Lock();
         DoAttack();
     }
@@ -129,20 +140,56 @@ public class Attack : MonoBehaviour, IAttack
 
     private void Lock()
     {
-        var minDis = Mathf.Infinity;
-        if (!enemies.Contains(target))
+        if (mainCamera == null || enemies.Count == 0)
+        {
+            if (target) target.ShowBar(false);
             target = null;
+            return;
+        }
+        
+        // 从屏幕中心发射射线
+        Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        
+        // 存储最接近射线的敌人和距离
+        BaseObject closestEnemy = null;
+        float minDistance = Mathf.Infinity;
+        
+        // 隐藏所有敌人的血条
         foreach (var e in enemies)
         {
-            var dis = Vector3.Distance(e.transform.position, transform.position);
             e.ShowBar(false);
-            if (dis < minDis)
+            
+            // 检查敌人是否在相机视野内
+            Vector3 screenPos = mainCamera.WorldToViewportPoint(e.transform.position);
+            if (screenPos.x < 0 || screenPos.x > 1 || screenPos.y < 0 || screenPos.y > 1 || screenPos.z < 0)
             {
-                minDis = dis;
-                target = e;
+                continue; // 敌人不在视野内
+            }
+            
+            // 计算敌人到射线的距离
+            float distanceToRay = GetDistanceToRay(ray, e.transform.position);
+            
+            // 选择最接近射线的敌人
+            if (distanceToRay < minDistance)
+            {
+                minDistance = distanceToRay;
+                closestEnemy = e;
             }
         }
-        if (target) target.ShowBar(true);
+        
+        // 更新目标并显示血条
+        target = closestEnemy;
+        if (target)
+        {
+            target.ShowBar(true);
+        }
+    }
+    
+    // 计算点到射线的距离
+    private float GetDistanceToRay(Ray ray, Vector3 point)
+    {
+        Vector3 closestPoint = ray.GetPoint(Vector3.Dot(point - ray.origin, ray.direction));
+        return Vector3.Distance(point, closestPoint);
     }
 
     private void DoAttack()
@@ -180,18 +227,13 @@ public class Attack : MonoBehaviour, IAttack
                 target.Heal(Damage);
             }
 
-            switch (absorb)
+            if (absorb)
             {
-                case true:
-                {
-                    if (target.currentEnergy == 0) return;
-                
-                    Player.Instance.AddEP(1);
-                    target.TakeDamage(takeDamage);
-                    break;
-                }
+                if (target.currentEnergy == 0) return;
+
+                Player.Instance.AddEP(1);
+                target.TakeDamage(takeDamage);
             }
-            
         }
     }
 }

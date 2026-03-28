@@ -45,8 +45,8 @@ public static class TransformExtensions
     }
     public static IEnumerator TransformShape(this Transform transform, TransformGroup targetTransform, float transformTime)
     {
-        var startPosition = transform.position;
-        var startRotation = transform.eulerAngles;
+        var startPosition = transform.localPosition;
+        var startRotation = transform.localEulerAngles;
         var startScale = transform.localScale;
 
         // 根据枚举标志决定哪些属性需要变换
@@ -59,9 +59,9 @@ public static class TransformExtensions
         {
             var t = elapsedTime / transformTime;
             if (doPosition)
-                transform.position = Vector3.Lerp(startPosition, targetTransform.Position, t);
+                transform.localPosition = Vector3.Lerp(startPosition, targetTransform.Position, t);
             if (doRotation)
-                transform.eulerAngles = Vector3.Lerp(startRotation, targetTransform.Rotation, t);
+                transform.localEulerAngles = Vector3.Lerp(startRotation, targetTransform.Rotation, t);
             if (doScale)
                 transform.localScale = Vector3.Lerp(startScale, targetTransform.Scale, t);
 
@@ -69,8 +69,8 @@ public static class TransformExtensions
             yield return null;
         }
         // 确保最终值正确（只应用需要变换的属性）
-        if (doPosition) transform.position = targetTransform.Position;
-        if (doRotation) transform.eulerAngles = targetTransform.Rotation;
+        if (doPosition) transform.localPosition = targetTransform.Position;
+        if (doRotation) transform.localEulerAngles = targetTransform.Rotation;
         if (doScale) transform.localScale = targetTransform.Scale;
     }
 }
@@ -95,7 +95,7 @@ public class TransformGroup
     public Vector3 Rotation;
     
     [ShowIf("items", ShowTransformItem.Scale)]
-    public Vector3 Scale;
+    public Vector3 Scale = Vector3.one;
 }
 
 [System.AttributeUsage(System.AttributeTargets.Field, Inherited = true, AllowMultiple = false)]

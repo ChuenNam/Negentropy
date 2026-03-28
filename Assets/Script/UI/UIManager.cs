@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     public PlayerUI playerUI;
     public ConsoleUI consoleUI;
     public LogUI logUI;
-
+    public TipsUI tipsUI;
 
     private void Update()
     {

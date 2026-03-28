@@ -31,6 +31,33 @@ public class ShowIfPropertyDrawer : PropertyDrawer
             if (show)
             {
                 EditorGUI.PropertyField(position, property, label, true);
+                if (GUILayout.Button("写入信息"))
+                {
+                    // 获取当前选中的物体
+                    var selectedObject = Selection.activeGameObject;
+                    if (selectedObject != null)
+                    {
+                        Transform transform = selectedObject.transform;
+                        switch (property.displayName)
+                        {
+                            case "Position":
+                                property.vector3Value = transform.localPosition;
+                                break;
+                            case "Rotation":
+                                property.quaternionValue = transform.localRotation;
+                                break;
+                            case "Scale":
+                                property.vector3Value = transform.localScale;
+                                break;
+                        }
+                        // 应用修改
+                        property.serializedObject.ApplyModifiedProperties();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("请先选中一个物体");
+                    }
+                }
             }
             // 如果不显示，什么都不绘制，但注意 GetPropertyHeight 会返回 0，保证布局正确
         }

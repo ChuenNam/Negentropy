@@ -12,7 +12,7 @@ public class LogNode
     public float waitTime = 1;
 }
 
-
+[RequireComponent(typeof(BoxCollider))]
 public class TriggerLog : MonoBehaviour
 {
     public bool isOnce;

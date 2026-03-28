@@ -24,6 +24,7 @@ public class Shooter : MonoBehaviour
         player = self.player;
         shotTimer = shotInterval;
         hasShot = false;
+        GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     private void Update()

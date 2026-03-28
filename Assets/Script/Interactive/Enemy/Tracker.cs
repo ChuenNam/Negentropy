@@ -19,6 +19,7 @@ public class Tracker : MonoBehaviour
     {
         self = GetComponent<BaseEnemy>();
         player = self.player;
+        GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     void Update()

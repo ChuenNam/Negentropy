@@ -29,14 +29,7 @@ public class PlayerInfoTool : MonoBehaviour
         followerBehavior = player.GetComponent<FollowerBehavier>();
         
         // 初始化
-        maxHP = player.MaxHP;
-        maxEP = player.MaxEP;
-        speed = move.maxSpeed;
-        lockSpike = followerBehavior.lockSpike;
-        lockBall = followerBehavior.lockBall;
-        lockFire = attack.lockFire;
-        lockElectric = attack.lockElectricity;
-        lockBoom = attack.lockBoom;
+        UpdatePlayerInfo();
         
         // 添加修改监听
         OnValueChange += () =>
@@ -56,6 +49,18 @@ public class PlayerInfoTool : MonoBehaviour
         };
     }
 
+    public void UpdatePlayerInfo()
+    {
+        maxHP = player.MaxHP;
+        maxEP = player.MaxEP;
+        speed = move.maxSpeed;
+        lockSpike = followerBehavior.lockSpike;
+        lockBall = followerBehavior.lockBall;
+        lockFire = attack.lockFire;
+        lockElectric = attack.lockElectricity;
+        lockBoom = attack.lockBoom;
+    }
+    
     public bool GetBool(int index)
     {
         return index switch

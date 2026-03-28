@@ -32,7 +32,7 @@ public class FollowerBehavier : MonoBehaviour
         if (baseEnemy) 
             atkTarget = baseEnemy.transform;
         
-        if (isAttacking || isReturning) return;
+        if (atkTarget == null || isAttacking || isReturning) return;
 
         if (Player.Instance.EP < 1)
         {
@@ -46,7 +46,7 @@ public class FollowerBehavier : MonoBehaviour
         followerAttack.Damage = 30;
         
         GetComponent<Animator>().SetBool("isAttack", true);
-        transform.LookAt(new Vector3(atkTarget.transform.position.x, 0, atkTarget.transform.position.z));
+        transform.LookAt(new Vector3(atkTarget.transform.position.x, transform.position.y, atkTarget.transform.position.z));
         StartCoroutine(AttackCoroutine());
     }
 
@@ -58,7 +58,7 @@ public class FollowerBehavier : MonoBehaviour
         if (baseEnemy)
             atkTarget = baseEnemy.transform;
         
-        if (isAttacking || isReturning) return;
+        if (atkTarget == null || isAttacking || isReturning) return;
 
         if (Player.Instance.EP < 2)
         {
@@ -72,7 +72,7 @@ public class FollowerBehavier : MonoBehaviour
         followerAttack.Damage = 10;
         
         GetComponent<Animator>().SetBool("isAttack", true);
-        transform.LookAt(new Vector3(atkTarget.transform.position.x, 0, atkTarget.transform.position.z));
+        transform.LookAt(new Vector3(atkTarget.transform.position.x, transform.position.y, atkTarget.transform.position.z));
         StartCoroutine(AttackCoroutine());
     }
     
@@ -150,5 +150,10 @@ public class FollowerBehavier : MonoBehaviour
         
         // 设置位置
         follower.position = new Vector3(x, y, z);
+    }
+
+    public void UnlockFollower()
+    {
+        follower.gameObject.SetActive(true);
     }
 }
