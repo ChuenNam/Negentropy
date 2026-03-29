@@ -35,10 +35,13 @@ public class Attack : MonoBehaviour, IAttack
     public bool lockFire = false;
     public bool lockElectricity = false;
     public bool lockBoom = false;
-    public void UnlockFire()
+    public void LockFire(bool val)
     {
-        lockFire = false;
-        Player.Instance.lockElement = false;
+        lockFire = val;
+        if (!val)
+            Player.Instance.lockElement = false;
+        else
+            Player.Instance.lockElement = true;
     }
     public void UnlockElectricity() => lockElectricity = false;
     public void UnlockBoom() => lockBoom = false;

@@ -36,6 +36,10 @@ public class BaseEnemy : BaseObject, ICanBeAttack, IElement
     public virtual void OnHurt(Attacker attacker)
     {
         TakeDamage(attacker.Damage);
+        if (currentEnergy > 0 && attacker.gameObject.name != $"Follower")
+        {
+            Destroy(attacker.gameObject);
+        }
     }
 
     public Element elementState;

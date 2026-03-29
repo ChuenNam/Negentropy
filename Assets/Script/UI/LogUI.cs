@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.Events;
 
 public class LogUI : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class LogUI : MonoBehaviour
     public bool showing;
     private Queue<LogNode> logsQueue = new();
     public Action onLogOver;
+    public UnityEvent addedAction;
 
     public void AddToLogLink(List<LogNode> logLink)
     {
@@ -42,6 +44,7 @@ public class LogUI : MonoBehaviour
         if (logsQueue.Count != 0)
             yield return StartShowLog();
         
+        addedAction?.Invoke();
         onLogOver?.Invoke();
         yield return null;
     }
@@ -58,5 +61,6 @@ public class LogUI : MonoBehaviour
     private void OnDisable()
     {
         onLogOver = null;
+        addedAction = null;
     }
 }

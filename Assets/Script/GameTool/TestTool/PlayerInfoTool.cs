@@ -18,7 +18,7 @@ public class PlayerInfoTool : MonoBehaviour
     public bool lockSpike;
     public bool lockBall;
     public bool lockFire;
-    public bool lockElectric;
+    public bool lockElectricity;
     public bool lockBoom;
 
     public void Start()
@@ -42,9 +42,9 @@ public class PlayerInfoTool : MonoBehaviour
             
             followerBehavior.lockSpike = lockSpike;
             followerBehavior.lockBall = lockBall;
-            
-            attack.lockFire = lockFire;
-            attack.lockElectricity = lockElectric;
+
+            attack.LockFire(lockFire);
+            attack.lockElectricity = lockElectricity;
             attack.lockBoom = lockBoom;
         };
     }
@@ -57,7 +57,7 @@ public class PlayerInfoTool : MonoBehaviour
         lockSpike = followerBehavior.lockSpike;
         lockBall = followerBehavior.lockBall;
         lockFire = attack.lockFire;
-        lockElectric = attack.lockElectricity;
+        lockElectricity = attack.lockElectricity;
         lockBoom = attack.lockBoom;
     }
     
@@ -69,7 +69,7 @@ public class PlayerInfoTool : MonoBehaviour
             1 => lockSpike,
             2 => lockBall,
             3 => lockFire,
-            4 => lockElectric,
+            4 => lockElectricity,
             5 => lockBoom,
             _ => false
         };
@@ -82,7 +82,7 @@ public class PlayerInfoTool : MonoBehaviour
             case 1: lockSpike = value; break;
             case 2: lockBall = value; break;
             case 3: lockFire = value; break;
-            case 4: lockElectric = value; break;
+            case 4: lockElectricity = value; break;
             case 5: lockBoom = value; break;
         }
         OnValueChange?.Invoke();

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 public class LogNode
@@ -17,13 +18,15 @@ public class TriggerLog : MonoBehaviour
 {
     public bool isOnce;
     public List<LogNode> logLink = new();
+    public UnityEvent addedAction;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) 
             return;
         UIManager.Instance.logUI.AddToLogLink(logLink);
-        if (isOnce) 
+        UIManager.Instance.logUI.addedAction = addedAction;
+        if (isOnce)
             Destroy(gameObject);
     }
     

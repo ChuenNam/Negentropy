@@ -7,31 +7,35 @@ using UnityEngine.Events;
 public class LootBox : MonoBehaviour
 {
     public bool isLock = true;
+    private bool canOpen = false;
     public UnityEvent unlockAction;
     public void Unlock() => isLock = false;
     
-    private Transform player;
     
     private void Start()
     {
-        player = Player.Instance.transform;
         GetComponent<MeshRenderer>().material.color = new Color(1, .5f, 0, 1);
     }
+
     private void Update()
     {
-        if (isLock) return;
-
-        if (Vector3.Distance(player.position, transform.position) <= 2f)
-        {
-            UIManager.Instance.tipsUI.OpenInteractTips();
-            if (Input.GetKeyDown(KeyCode.F))
-                Open();
-        }
-        else
-        {
-            UIManager.Instance.tipsUI.CloseInteractTips();
-        }
+        if (canOpen && Input.GetKeyDown(KeyCode.F))
+            Open();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isLock && !other.CompareTag("Player")) return;
+        UIManager.Instance.tipsUI.OpenInteractTips();
+        canOpen = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+        UIManager.Instance.tipsUI.CloseInteractTips();
+        canOpen = false;
+    }
+
     private void Open()
     {
         isLock = false;
@@ -61,7 +65,7 @@ public class LootBox : MonoBehaviour
     }
     public void UnlockFire()
     {
-        Player.Instance.GetComponent<Attack>().lockFire = false;
+        Player.Instance.GetComponent<Attack>().LockFire(false);
         UIManager.Instance.consoleUI.playerInfoTool.UpdatePlayerInfo();
         UIManager.Instance.tipsUI.OpenGetTips("解锁火元素获取与效果");
     }

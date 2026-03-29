@@ -46,7 +46,7 @@ public class Door : MonoBehaviour
     
     private void Start()
     {
-        if (TryGetComponent(out MeshRenderer mr))
+        if (TryGetComponent(out MeshRenderer mr) && mr.material.shader.name == "Universal Render Pipeline/Lit")
             mr.material.color = Color.yellow;
     }
 }

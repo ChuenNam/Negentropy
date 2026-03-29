@@ -34,7 +34,7 @@ public class PlayerUI : MonoBehaviour
         var ep= Instantiate(EP_prefab, energyInitRect);
         energyImgs.Add(ep.GetComponent<Image>());
     }
-    public void UpdateMaxHealthUI(bool heal = true)
+    public void UpdateMaxHealthUI(bool heal = false)
     {
         var maxHp = Player.Instance.MaxHP;
         if (maxHp < Player.Instance.HP)
@@ -93,7 +93,8 @@ public class PlayerUI : MonoBehaviour
 
     public void UpdateHealthUI(int num)
     {
-        if (Player.Instance.MaxHP * 5 != (int)healthBar.sizeDelta.x)
+        var rect = transform.GetComponent<RectTransform>();
+        if (Player.Instance.MaxHP * 5 + 5 != (int)rect.sizeDelta.x)
         {
             UpdateMaxHealthUI();
             return;
