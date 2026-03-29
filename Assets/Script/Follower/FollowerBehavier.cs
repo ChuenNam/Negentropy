@@ -8,11 +8,13 @@ public class FollowerBehavier : MonoBehaviour
 {
     public Transform follower;
     public bool lockSpike = false;
+    public int spikeCost = 2;
     public bool lockBall = false;
-
+    public int ballCost = 2;
+    [Space]
     public Transform startPos;
     public Transform atkTarget;
-    
+    [Space]
     public float distance = 5f; // 离Y轴的距离参数
     public float rotationSpeed = 50f; // 旋转速度
     public float attackMoveSpeed = 10f; // 攻击移动速度
@@ -34,18 +36,18 @@ public class FollowerBehavier : MonoBehaviour
         
         if (atkTarget == null || isAttacking || isReturning) return;
 
-        if (Player.Instance.EP < 1)
+        if (Player.Instance.EP < spikeCost)
         {
-            Debug.Log("能量不足");
+            UIManager.Instance.tipsUI.OpenCommonTips("能量不足");
             return;
         }
-        Player.Instance.MinusEP(1);
+        Player.Instance.MinusEP(spikeCost);
         meshFilter.mesh = meshes[1];
         followerAttack.AttackType = AttackType.spike;
         SetElement();
         followerAttack.Damage = 30;
         
-        GetComponent<Animator>().SetBool("isAttack", true);
+        //GetComponent<Animator>().SetBool("isAttack", true);
         transform.LookAt(new Vector3(atkTarget.transform.position.x, transform.position.y, atkTarget.transform.position.z));
         StartCoroutine(AttackCoroutine());
     }
@@ -60,18 +62,18 @@ public class FollowerBehavier : MonoBehaviour
         
         if (atkTarget == null || isAttacking || isReturning) return;
 
-        if (Player.Instance.EP < 2)
+        if (Player.Instance.EP < ballCost)
         {
-            Debug.Log("能量不足");
+            UIManager.Instance.tipsUI.OpenCommonTips("能量不足");
             return;
         }
-        Player.Instance.MinusEP(2);
+        Player.Instance.MinusEP(ballCost);
         meshFilter.mesh = meshes[2];
         followerAttack.AttackType = AttackType.ball;
         SetElement();
         followerAttack.Damage = 10;
         
-        GetComponent<Animator>().SetBool("isAttack", true);
+        //GetComponent<Animator>().SetBool("isAttack", true);
         transform.LookAt(new Vector3(atkTarget.transform.position.x, transform.position.y, atkTarget.transform.position.z));
         StartCoroutine(AttackCoroutine());
     }

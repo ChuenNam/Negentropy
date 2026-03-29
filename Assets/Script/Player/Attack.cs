@@ -163,14 +163,14 @@ public class Attack : MonoBehaviour, IAttack
             e.ShowBar(false);
             
             // 检查敌人是否在相机视野内
-            Vector3 screenPos = mainCamera.WorldToViewportPoint(e.transform.position);
+            Vector3 screenPos = mainCamera.WorldToViewportPoint(e.energyBarFollowPoint.position);
             if (screenPos.x < 0 || screenPos.x > 1 || screenPos.y < 0 || screenPos.y > 1 || screenPos.z < 0)
             {
                 continue; // 敌人不在视野内
             }
             
             // 计算敌人到射线的距离
-            float distanceToRay = GetDistanceToRay(ray, e.transform.position);
+            float distanceToRay = GetDistanceToRay(ray, e.energyBarFollowPoint.position);
             
             // 选择最接近射线的敌人
             if (distanceToRay < minDistance)

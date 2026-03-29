@@ -113,7 +113,7 @@ public class GizmosControl : MonoBehaviour
                     renderer.material.SetColor($"_Color", actRangeColor);
                     renderer.material.SetFloat($"_Alpha", actRangeAlpha);
                 }
-                sphereObj.transform.position = baseObject.transform.position;
+                sphereObj.transform.position = baseObject.energyBarFollowPoint.position;
                 sphereObj.transform.localScale = new Vector3(baseObject.range * 2, baseObject.range * 2, baseObject.range * 2);
             }
         }

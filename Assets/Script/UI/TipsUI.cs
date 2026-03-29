@@ -22,4 +22,18 @@ public class TipsUI : MonoBehaviour
         getTips.GetComponent<Text>().text = "";
         getTips.SetActive(false);
     }
+    
+    public GameObject commonTips;
+    public void OpenCommonTips(string txt)
+    {
+        commonTips.GetComponent<Text>().text = txt;
+        commonTips.SetActive(true);
+        StartCoroutine(CloseCommonTips());
+    }
+    private IEnumerator CloseCommonTips()
+    {
+        yield return new WaitForSeconds(1);
+        commonTips.GetComponent<Text>().text = "";
+        commonTips.SetActive(false);
+    }
 }

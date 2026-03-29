@@ -7,11 +7,14 @@ public class BreakWall : BaseObject, ICanBeAttack, IBreakable
 {
     [Header("属性")]
     public bool canBreak = false;
+    public int defaultEnergy = 0;
     public Action OnHitCallback { get; set; }
     
     protected override void OnEnable()
     {
         base.OnEnable();
+        currentEnergy = defaultEnergy;
+        UpdateEnergyBar();
         OnEnergyEmpty += () =>  canBreak = true;
     }
 
@@ -25,6 +28,11 @@ public class BreakWall : BaseObject, ICanBeAttack, IBreakable
     {
         if (!canInteract)    return;
         OnHitCallback?.Invoke();
+        if (currentEnergy == 0 && attacker.AttackType == AttackType.spike)
+        {
+            Player.Instance.AddEP(2);
+            return;
+        }
         TakeDamage(attacker.Damage);
         if (canBreak && attacker.AttackType == AttackType.ball)
         {
