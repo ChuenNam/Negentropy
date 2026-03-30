@@ -19,6 +19,7 @@ public class BaseEnemy : BaseObject, ICanBeAttack, IElement
             Player.Instance.AddEP(killEnergy);
             Destroy(gameObject);
         };
+        ElementState.SetElementColor(energyBarInstance.GetComponent<Image>());
     }
     protected override void OnDisable()
     {
@@ -30,6 +31,8 @@ public class BaseEnemy : BaseObject, ICanBeAttack, IElement
     {
         if (!canInteract) return;
         OnHitCallback?.Invoke();
+        OnHitCallback = null;
+        Debug.Log("AAAA");
         OnHurt(attacker);
     }
 

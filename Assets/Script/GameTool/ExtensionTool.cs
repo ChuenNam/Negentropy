@@ -32,16 +32,18 @@ public static class TransformExtensions
 {
     public static IEnumerator TransformShape(this Transform transform, Vector3 targetScale, float transformTime)
     {
+        Debug.Log(444);
         var startScale = transform.localScale;
         var elapsedTime = 0f;
-
+        
         while (elapsedTime < transformTime)
         {
-            transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / transformTime);
+            if (transform != null)
+                transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / transformTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        transform.localScale = targetScale;
+        if (transform != null) transform.localScale = targetScale;
     }
     public static IEnumerator TransformShape(this Transform transform, TransformGroup targetTransform, float transformTime)
     {

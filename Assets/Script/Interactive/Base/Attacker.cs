@@ -40,15 +40,16 @@ public class Attacker : MonoBehaviour, IAttack
 
     public void ReactionAttack(IElement t)
     {
+        Debug.Log(111);
         if (AttackType == AttackType.spike)
         {
             damage *= 2;
         }
-
-        if (AttackType == AttackType.ball)
+        else if (AttackType == AttackType.ball)
         {
             if (t is ICanBeAttack target)
             {
+                target.OnHitCallback = null;
                 target.OnHitCallback += OnBoomDo;
             }
         }
@@ -56,6 +57,8 @@ public class Attacker : MonoBehaviour, IAttack
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Player") || other.CompareTag("Follower")) return;
+        
         var list = other.GetComponents<ICanBeAttack>();
         foreach (var target in list)
         {
@@ -73,7 +76,7 @@ public class Attacker : MonoBehaviour, IAttack
     }
 
     private GameObject boomWavePrefab;
-    private void OnBoomDo()
+    private void  OnBoomDo()
     {
         var boomWave = Instantiate(boomWavePrefab, transform.position, transform.rotation);
         boomWave.GetComponent<Attacker>().Damage = this.Damage;
@@ -83,8 +86,9 @@ public class Attacker : MonoBehaviour, IAttack
     private IEnumerator BoomSpread(Transform waveTransform)
     {
         yield return waveTransform.TransformShape(Vector3.one * ReactionRange, 10f);
-        Debug.Log("Boom Over");
-        Destroy(waveTransform.gameObject);
+
+        if (waveTransform != null)
+            Destroy(waveTransform.gameObject);
         yield return null;
     }
 

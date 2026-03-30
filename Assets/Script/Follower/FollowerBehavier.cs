@@ -92,6 +92,7 @@ public class FollowerBehavier : MonoBehaviour
             yield return null;
         }
         
+        follower.GetComponent<SphereCollider>().enabled = true;
         // 移动到攻击目标
         while (atkTarget != null && Vector3.Distance(follower.position, atkTarget.position) > 0.1f)
         {
@@ -106,6 +107,7 @@ public class FollowerBehavier : MonoBehaviour
         // 重置数据
         followerAttack.AttackType = AttackType.none;
         followerAttack.Damage = 0;
+        follower.GetComponent<SphereCollider>().enabled = false;
         
         // 返回到起始位置
         while (Vector3.Distance(follower.position, startPos.position) > 0.1f)
