@@ -21,6 +21,8 @@ public class Door : MonoBehaviour
 
     private void Update()
     {
+        if (unlockAction == null)   return;
+        
         isLocked = false;
         foreach (var obj in conditionObjects)
         {
@@ -48,5 +50,16 @@ public class Door : MonoBehaviour
     {
         if (TryGetComponent(out MeshRenderer mr) && mr.material.shader.name == "Universal Render Pipeline/Lit")
             mr.material.color = Color.yellow;
+        
+        if (unlockAction != null && conditionObjects.Count == 0)
+        {
+            deadAction = unlockAction;
+        }
+    }
+    private UnityEvent deadAction;
+    private void OnDestroy()
+    {
+        deadAction?.Invoke();
+        deadAction = null;
     }
 }
