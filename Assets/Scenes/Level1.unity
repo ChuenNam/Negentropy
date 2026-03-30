@@ -17534,6 +17534,7 @@ GameObject:
   m_Component:
   - component: {fileID: 812051559}
   - component: {fileID: 812051558}
+  - component: {fileID: 812051560}
   m_Layer: 0
   m_Name: PlayerCam
   m_TagString: Untagged
@@ -17664,6 +17665,36 @@ Transform:
   - {fileID: 523513102}
   m_Father: {fileID: 1451692995}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &812051560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812051557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 321
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1001 &819389537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22070,8 +22101,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 5
   rotationSpeed: 10
+  collisionCheckDistance: 0.5
   jumpHeight: 2
   groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  wallLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheck: {fileID: 1194089460}
@@ -42794,7 +42829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2017172969}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.044115968, y: 0.08260484, z: -0.0037041216, w: -0.99559855}
+  m_LocalRotation: {x: -0.044115964, y: 0.08260484, z: -0.0037041213, w: -0.99559855}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

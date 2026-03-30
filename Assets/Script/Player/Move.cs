@@ -6,10 +6,12 @@ public class Move : MonoBehaviour
     [Header("移动参数")]
     [SerializeField] public float maxSpeed = 5f;
     [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float collisionCheckDistance = 0.5f; // 碰撞检测距离
 
     [Header("跳跃参数")]
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask wallLayer; // 墙壁图层
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
 
@@ -83,22 +85,44 @@ public class Move : MonoBehaviour
             Vector3 actualMoveDirection = cameraRight * moveInput.x + cameraForward * moveInput.y;
             actualMoveDirection.Normalize();
             
-            //计算目标旋转角度
-            Quaternion targetRotation = Quaternion.LookRotation(actualMoveDirection);
-            
-            //平滑旋转
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            
-            //应用移动
-            Vector3 targetVelocity = actualMoveDirection * maxSpeed;
-            targetVelocity.y = rb.velocity.y;
-            rb.velocity = targetVelocity;
+            // 检测前方是否有墙壁
+            if (!IsWallInFront(actualMoveDirection))
+            {
+                //计算目标旋转角度
+                Quaternion targetRotation = Quaternion.LookRotation(actualMoveDirection);
+                
+                //平滑旋转
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                
+                //应用移动
+                Vector3 targetVelocity = actualMoveDirection * maxSpeed;
+                targetVelocity.y = rb.velocity.y;
+                rb.velocity = targetVelocity;
+            }
+            else
+            {
+                // 如果前方有墙，只旋转不移动
+                Quaternion targetRotation = Quaternion.LookRotation(actualMoveDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                
+                // 保持当前垂直速度，水平速度设为0
+                Vector3 stopVelocity = new Vector3(0f, rb.velocity.y, 0f);
+                rb.velocity = stopVelocity;
+            }
         }
         else
         {
             Vector3 stopVelocity = new Vector3(0f, rb.velocity.y, 0f);
             rb.velocity = stopVelocity;
         }
+    }
+
+    private bool IsWallInFront(Vector3 direction)
+    {
+        RaycastHit hit;
+        // 从角色中心稍高的位置发射射线，避免地面碰撞影响
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.5f;
+        return Physics.Raycast(rayOrigin, direction, out hit, collisionCheckDistance, wallLayer);
     }
 
     private void HandleJump()
@@ -128,6 +152,11 @@ public class Move : MonoBehaviour
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
+        
+        // 绘制碰撞检测射线
+        Gizmos.color = Color.red;
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.5f;
+        Gizmos.DrawRay(rayOrigin, transform.forward * collisionCheckDistance);
     }
 
     #region 动画接口
