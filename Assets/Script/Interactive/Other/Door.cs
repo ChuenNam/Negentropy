@@ -54,6 +54,7 @@ public class Door : MonoBehaviour
         if (unlockAction != null && conditionObjects.Count == 0)
         {
             deadAction = unlockAction;
+            unlockAction = null;
         }
     }
     private UnityEvent deadAction;
