@@ -32,7 +32,6 @@ public class BaseEnemy : BaseObject, ICanBeAttack, IElement
         if (!canInteract) return;
         OnHitCallback?.Invoke();
         OnHitCallback = null;
-        Debug.Log("AAAA");
         OnHurt(attacker);
     }
 

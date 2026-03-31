@@ -20,7 +20,7 @@ public class PlayerInfoTool : MonoBehaviour
     public bool lockFire;
     public bool lockElectricity;
     public bool lockBoom;
-
+    
     public void Start()
     {
         player = Player.Instance;

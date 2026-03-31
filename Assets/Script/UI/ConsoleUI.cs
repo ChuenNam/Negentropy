@@ -2,20 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+//using TMPro;
 using UnityEngine.UI;
 
 public class ConsoleUI : MonoBehaviour
 {
     public bool show;
     
-    public TMP_Dropdown functionOption;
+    public Dropdown functionOption;
     public List<GameObject> detailPanels;
     
     [Header("玩家信息")]
     public PlayerInfoTool playerInfoTool;
     public List<Toggle> toggles3;
-    public List<TMP_InputField> inputFields;  
+    public List<InputField> inputFields;  
     
     [Header("范围Gizmos")]
     public GizmosControl gizmosControl;
@@ -25,6 +25,12 @@ public class ConsoleUI : MonoBehaviour
     public GenerateTool generateTool;
     public Button generateButton;
     public List<Toggle> toggles2;
+    
+    [Header("传送控制")]
+    private TPLevelTool tpLevelTool;
+    public Dropdown levelChoseDropdown;
+    public Dropdown roomChoseDropdown;
+    public Button TPButton;
 
     private void Start()
     {
@@ -79,7 +85,39 @@ public class ConsoleUI : MonoBehaviour
             inputField.text = playerInfoTool.GetInt(index).ToString();
         }
         #endregion
+
+        #region 传送控制
         
+        tpLevelTool = TPLevelTool.Instance;
+        var levels = tpLevelTool.levelConfig.levels;
+        levelChoseDropdown.ClearOptions();
+        // 添加关卡选项
+        foreach (var level in levels)
+        {
+            levelChoseDropdown.options.Add(new Dropdown.OptionData(level.levelName));
+        }
+        levelChoseDropdown.RefreshShownValue();
+        // 切换关卡时更新房间数据
+        levelChoseDropdown.onValueChanged.AddListener(arg =>
+        {
+            roomChoseDropdown.ClearOptions();
+            var level = levels[arg];
+            foreach (var room in level.rooms)
+            {
+                roomChoseDropdown.options.Add(new Dropdown.OptionData(room.roomName));
+            }
+            roomChoseDropdown.RefreshShownValue();
+        });
+        levelChoseDropdown.onValueChanged?.Invoke(0);
+        
+        // 点击传送绑定
+        TPButton.onClick.AddListener(() =>
+        {
+            var levelText = levelChoseDropdown.options[levelChoseDropdown.value].text;
+            var roomText = roomChoseDropdown.options[roomChoseDropdown.value].text;
+            tpLevelTool.TeleportToRoom(levelText, roomText);
+        });
+        #endregion
     }
 
     private void ChangeDetailPanel()

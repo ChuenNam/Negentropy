@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,6 @@ public class GenerateTool : MonoBehaviour
     public bool withShield;
     public bool withShooter;
     public bool withTracker;
-
 
     public void SetBool(int index, bool value)
     {

@@ -24,7 +24,7 @@ public class GizmosControl : MonoBehaviour
     [Range(0,1)]public float trackRangeAlpha = .1f;
     public Material trackRangeGizmosMaterial;
     private readonly Dictionary<Tracker, GameObject> trackRangeSpheres = new();
-
+    
     public void SetBool(int index, bool value)
     {
         switch (index)
