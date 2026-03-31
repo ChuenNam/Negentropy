@@ -85,7 +85,7 @@ public class Attacker : MonoBehaviour, IAttack
 
     private IEnumerator BoomSpread(Transform waveTransform)
     {
-        yield return waveTransform.TransformShape(Vector3.one * ReactionRange, 10f);
+        yield return waveTransform.TransformShape(Vector3.one * ReactionRange, 3f);
 
         if (waveTransform != null)
             Destroy(waveTransform.gameObject);

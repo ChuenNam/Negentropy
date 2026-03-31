@@ -25,7 +25,7 @@ public class LootBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isLock && !other.CompareTag("Player")) return;
+        if (isLock || !other.CompareTag("Player")) return;
         UIManager.Instance.tipsUI.OpenInteractTips();
         canOpen = true;
     }
