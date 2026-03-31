@@ -46,7 +46,7 @@ public abstract class BaseObject : MonoBehaviour
         if (energyBarPrefab == null) return;
         
         // 实例化能量条（父物体设为Canvas）
-        energyBarInstance = Instantiate(energyBarPrefab, GameObject.Find("Canvas").transform);
+        energyBarInstance = Instantiate(energyBarPrefab, GameObject.Find("Canvas/EnergyBar").transform);
         energyBarInstance.SetActive(true);
         
         // 获取能量条填充组件
