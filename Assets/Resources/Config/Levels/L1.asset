@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 299940cbfa2c445595b2749be3f04798, type: 3}
+  m_Name: L1
+  m_EditorClassIdentifier: 
+  levelName: "\u5173\u53611"
+  sceneName: Scene1
+  rooms:
+  - roomName: 1
+    position: {x: 0, y: -2, z: 0}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - roomName: 2
+    position: {x: -4.0060997, y: 0.85824776, z: 37.136276}
+    rotation: {x: -0, y: -0.258819, z: -0, w: 0.9659259}
+  - roomName: 3
+    position: {x: -47, y: 8, z: 35}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - roomName: 4
+    position: {x: -43.98, y: 4, z: 67.03}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - roomName: 5
+    position: {x: 2.7000008, y: 4.48, z: 84.76}
+    rotation: {x: -0, y: -0, z: -0, w: 1}

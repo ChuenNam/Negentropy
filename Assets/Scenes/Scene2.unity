@@ -7115,21 +7115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308b2373f3ffb994ab061b3df8d0e8ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels:
-  - levelName: "\u5173\u53614"
-    sceneName: Scene2
-    rooms:
-    - roomName: 1
-      spawnPoint: {fileID: 166496974}
-    - roomName: 2
-      spawnPoint: {fileID: 439256786}
-  - levelName: "\u5173\u53615"
-    sceneName: Scene2
-    rooms:
-    - roomName: 1
-      spawnPoint: {fileID: 1402768050}
-    - roomName: 2
-      spawnPoint: {fileID: 1548765599}
+  levelConfig: {fileID: 11400000, guid: 54e3f8e99b1c7754e9d5acaa9105c765, type: 2}
 --- !u!4 &657816964
 Transform:
   m_ObjectHideFlags: 0
@@ -22019,6 +22005,6 @@ SceneRoots:
   - {fileID: 272743960}
   - {fileID: 709403918}
   - {fileID: 1452669791}
-  - {fileID: 657816964}
   - {fileID: 1561221431}
   - {fileID: 1738975570}
+  - {fileID: 657816964}
