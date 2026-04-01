@@ -49,6 +49,7 @@ public class PlayerUI : MonoBehaviour
     
     public void UpdateEnergyUI(int num)
     {
+        if (num < 0) return;
         if (Player.Instance.MaxEP != energyImgs.Count)
         {
             var sub = Player.Instance.MaxEP - energyImgs.Count;
@@ -93,10 +94,11 @@ public class PlayerUI : MonoBehaviour
 
     public void UpdateHealthUI(int num)
     {
+        if (num < 0) return;
         var rect = transform.GetComponent<RectTransform>();
         if (Player.Instance.MaxHP * 5 + 5 != (int)rect.sizeDelta.x)
         {
-            UpdateMaxHealthUI();
+            UpdateMaxHealthUI(true);
             return;
         }
         healthBar.sizeDelta = new Vector2(num, healthBar.sizeDelta.y);

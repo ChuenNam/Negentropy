@@ -74,4 +74,16 @@ public class BaseEnemy : BaseObject, ICanBeAttack, IElement
         attacker.ElementType = Element.common;
         ElementState.SetElementColor(energyBarInstance.GetComponent<Image>());
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (GetComponent<Tracker>() != null)    
+            return;
+        
+        if (other.CompareTag("Player"))
+        {
+            Player.Instance.MinusHP(enemyDamage);
+            Destroy(gameObject);
+        }
+    }
 }

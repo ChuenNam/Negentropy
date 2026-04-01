@@ -46,6 +46,9 @@ public class PlayerInfoTool : MonoBehaviour
             attack.LockFire(lockFire);
             attack.lockElectricity = lockElectricity;
             attack.lockBoom = lockBoom;
+            
+            UIManager.Instance.playerUI.UpdateHealthUI(Player.Instance.HP);
+            UIManager.Instance.playerUI.UpdateEnergyUI(Player.Instance.EP);
         };
     }
 

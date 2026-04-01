@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using System;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class LogUI : MonoBehaviour
 {
     public GameObject logPanel;
-    public TextMeshProUGUI speaker;
-    public TextMeshProUGUI content;
+    public Text speaker;
+    public Text content;
     
     public bool showing;
     private Queue<LogNode> logsQueue = new();

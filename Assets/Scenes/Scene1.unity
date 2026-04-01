@@ -25364,7 +25364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e523a8cd5f442504cacdaec4e6646cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canInteract: 0
+  canInteract: 1
   range: 12
   maxEnergy: 50
   currentEnergy: 0
