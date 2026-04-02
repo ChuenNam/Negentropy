@@ -77,6 +77,9 @@ public class Player : MonoBehaviour
         if (HP - num <= 0)
         {
             Debug.Log("Player死亡");
+            UIManager.Instance.tipsUI.OpenCommonTips("玩家死亡！");
+            HP = 0;
+            return;
         }
         HP -= num;
         UIManager.Instance.playerUI.UpdateHealthUI(HP);

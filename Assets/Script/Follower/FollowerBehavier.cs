@@ -159,5 +159,6 @@ public class FollowerBehavier : MonoBehaviour
     public void UnlockFollower()
     {
         follower.gameObject.SetActive(true);
+        lockSpike = false;
     }
 }

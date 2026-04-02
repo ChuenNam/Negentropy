@@ -46,6 +46,7 @@ public class LootBox : MonoBehaviour
     }
 
 
+    public void DebugXXX(string txt) => UIManager.Instance.tipsUI.OpenGetTips(txt);
     public void UnlockXXX()
     {
         UIManager.Instance.tipsUI.OpenGetTips("获得XXX");
